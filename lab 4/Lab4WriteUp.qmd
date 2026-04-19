@@ -80,6 +80,16 @@ x <- sample(x=1:10,          # sample from 1, 2, 3, ..., 10
             replace = TRUE)  # allowed to sample the same item multiple times
 ```
 
+**Solution**
+
+Used indexing to retrieve the third element
+```{r}
+#| size: "scriptsize"
+
+item<- x[3]
+(item)
+```
+
 ## Part b
 
 Below, I create a data frame filled with random observations.
@@ -103,7 +113,7 @@ Use the `head(...)` function to peek at the data frame.
 
 **Solution:**
 
-Running `head(df)` to look at first few elements in the df
+Run `head(df)` to view at first few elements in the df
 
 ```{r}
 #| size: "scriptsize"
@@ -115,11 +125,11 @@ Ask for the column `x1`.
 
 **Solution:**
 
-Asking for the `x1` column
+Retrieved the `x1` column
 
 ```{r}
 #| size: "scriptsize"
-df[,1]
+df$x1
 ```
 
 ## Part d
@@ -127,7 +137,7 @@ Ask for the fifth row of the data frame.
 
 **Solution:**
 
-Getting 5th row
+Retrieved 5th row
 
 ```{r}
 #| size: "scriptsize"
@@ -143,7 +153,7 @@ Ask for the the value of `x1` in the fifth row of the data frame.
 
 ```{r}
 #| size: "scriptsize"
-df[5,1]
+df$x1[5]
 ```
 
 ## Part f
