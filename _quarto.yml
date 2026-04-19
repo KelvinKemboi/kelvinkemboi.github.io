@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "n"
@@ -8,6 +9,13 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - lab 2/Lab2WriteUp.qmd
+      - lab 3/Lab3WriteUp.qmd
+      - lab 4/Lab4WriteUp.qmd
+      - lab 5&6/Lab5WriteUp.qmd
+      - lab 8&9/Lab8WriteUp.qmd
+      - lab 10/Lab10WriteUp.qmd
+      - lab 11/Lab11WriteUp.qmd
 
 format:
   html:
@@ -17,5 +25,7 @@ format:
     css: styles.css
     toc: true
 
+execute:
+  freeze: auto
 
 

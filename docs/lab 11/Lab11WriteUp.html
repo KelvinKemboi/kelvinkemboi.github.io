@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab Eleven – Point Estimation and Resampling – n</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">n</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lab 2/Lab2WriteUp.html"> 
+<span class="menu-text">Lab Two – Basic Tasks in R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lab 3/Lab3WriteUp.html"> 
+<span class="menu-text">Lab Three – Matrices and Data Frames in R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lab 4/Lab4WriteUp.html"> 
+<span class="menu-text">Lab Four – Programming in R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lab 5&amp;6/Lab5WriteUp.html"> 
+<span class="menu-text">Lab Five-Six – Data Wrangling in R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lab 8&amp;9/Lab8WriteUp.html"> 
+<span class="menu-text">Lab Eight – Probability</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lab 10/Lab10WriteUp.html"> 
+<span class="menu-text">Lab Ten – Point Estimation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../lab 11/Lab11WriteUp.html" aria-current="page"> 
+<span class="menu-text">Lab Eleven – Point Estimation and Resampling</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#comparing-estimators" id="toc-comparing-estimators" class="nav-link" data-scroll-target="#comparing-estimators"><span class="header-section-number">2</span> Comparing Estimators</a>
+  <ul class="collapse">
+  <li><a href="#initial-simulation" id="toc-initial-simulation" class="nav-link" data-scroll-target="#initial-simulation"><span class="header-section-number">2.1</span> Initial Simulation</a></li>
+  <li><a href="#simulation-over-various-sample-sizes" id="toc-simulation-over-various-sample-sizes" class="nav-link" data-scroll-target="#simulation-over-various-sample-sizes"><span class="header-section-number">2.2</span> Simulation over various sample sizes</a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation"><span class="header-section-number">2.3</span> Simulation</a></li>
+  <li><a href="#bootstrap" id="toc-bootstrap" class="nav-link" data-scroll-target="#bootstrap"><span class="header-section-number">2.4</span> Bootstrap</a></li>
+  </ul></li>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link" data-scroll-target="#executive-summary"><span class="header-section-number">3</span> Executive Summary</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab11WriteUp.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab Eleven – Point Estimation and Resampling</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p></p>
+<p></p>
+<p><strong>Tips</strong></p>
+<ul>
+<li>Complete the tasks below. Make sure to start your solutions in on a new line that starts with “<strong>Solution</strong>:”.</li>
+<li>Make sure to use the Quarto Cheatsheet. This will make completing and writing up the lab <em>much</em> easier.</li>
+<li>Make sure to use “enter” to make your code readable, so it doesn’t run off the page. I switched the Quarto document to automatically render to .pdf, so you can see what you’re submitting by default. You can switch back for the highlighting by moving the html block above the pdf block in the YAML header.</li>
+<li>Don’t forget that you can copy-and-paste code when you’re doing something similar as we did in class!</li>
+<li>Make sure to plot all computed probabilities. This is good <code>ggplot</code> practice AND will help make sure you don’t make a mistake when computing the probability.</li>
+</ul>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>When performing point estimation, there isn’t just one <em>right</em> answer. For example, the Method of Moments (MOM) and Maximum Likelihood Estimates (MLEs) aren’t always the same.</p>
+<p>One question that comes up, is why we calculate the sample variance as <span class="math display">\[S_{n-1}^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i -\bar{X})^2,\]</span> when it is supposed to be the ``average squared distance from the mean, i.e., <span class="math display">\[S_n^2 = \frac{1}{n} \sum_{i=1}^n (X_i -\bar{X})^2.\]</span></p>
+</section>
+<section id="comparing-estimators" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Comparing Estimators</h1>
+<section id="initial-simulation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="initial-simulation"><span class="header-section-number">2.1</span> Initial Simulation</h2>
+<p>In this lab, we will explore why we use <span class="math inline">\(S_{n-1}^2\)</span> and not <span class="math inline">\(S_n^2\)</span>. To do this, we will generate data from four known distributions:</p>
+<ul>
+<li>Poisson<span class="math inline">\((\lambda=2)\)</span></li>
+<li>Binomial<span class="math inline">\(\left(n=50, p=\frac{5-\sqrt{21}}{10}\right)\)</span></li>
+<li>Normal<span class="math inline">\((\mu=0, \sigma=\sqrt{2})\)</span></li>
+<li>Exponential<span class="math inline">\(\left(\lambda = \frac{1}{\sqrt{2}}\right).\)</span></li>
+</ul>
+<p><strong>Remark</strong>: Note that I have selected the parameters so that the true variance for all four models is 2.</p>
+<p>For each distribution, write a loop that completes the following 1000 times. Put <code>set.seed(7272)</code> at the top of your code chunk.</p>
+<ul>
+<li>Generate a sample of size <span class="math inline">\(n\)</span> from the distribution.</li>
+<li>Calculate and save <span class="math inline">\(S_{n-1}^2\)</span> and <span class="math inline">\(S_n^2.\)</span></li>
+</ul>
+<p>Start with <span class="math inline">\(n=20\)</span>. Is there evidence that <span class="math inline">\(S_{n-1}^2\)</span> is a better estimator than <span class="math inline">\(S_n^2\)</span>?</p>
+<p><strong>Solution:</strong></p>
+<p>Created a function to compare estimatores and used a for loop to compute variance with n and n-1, storing the values in their repective varaibles. Put the data in a tibble, reshaped with <code>pivot_longer()</code> and seperated the variables into estimator and distribution for easier plotting and comparisons.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">7272</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>s_norm<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>sn_norm<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>s_binom<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a>sn_binom<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a>s_expo<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a>sn_expo<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>s_pois<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>sn_pois<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>n<span class="ot">&lt;-</span><span class="dv">1000</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># function to compare estimators across different distribtuions</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>estimator.comparison<span class="ot">&lt;-</span><span class="cf">function</span>(num){</span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){ <span class="do">##loop through 1000 samples</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>    <span class="co"># normal distrib</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    rand.norm<span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>num, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">2</span>))</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    s_norm[i]<span class="ot">&lt;-</span> <span class="fu">var</span>(rand.norm)</span>
+<span id="cb1-19"><a href="#cb1-19"></a>    sn_norm[i]<span class="ot">&lt;-</span> (num<span class="sc">/</span>(num<span class="dv">-1</span>))<span class="sc">*</span><span class="fu">var</span>(rand.norm)</span>
+<span id="cb1-20"><a href="#cb1-20"></a></span>
+<span id="cb1-21"><a href="#cb1-21"></a>    <span class="co"># poisson distrib</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    rand.pois<span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>num, <span class="at">lambda=</span><span class="dv">2</span>)</span>
+<span id="cb1-23"><a href="#cb1-23"></a>    s_pois[i]<span class="ot">&lt;-</span><span class="fu">var</span>(rand.pois)</span>
+<span id="cb1-24"><a href="#cb1-24"></a>    sn_pois[i]<span class="ot">&lt;-</span>(num<span class="sc">/</span>(num<span class="dv">-1</span>))<span class="sc">*</span><span class="fu">var</span>(rand.pois)</span>
+<span id="cb1-25"><a href="#cb1-25"></a></span>
+<span id="cb1-26"><a href="#cb1-26"></a>    <span class="co"># exp distrib</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>    rand.expo<span class="ot">&lt;-</span><span class="fu">rexp</span>(<span class="at">n=</span>num, <span class="at">rate=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span>))</span>
+<span id="cb1-28"><a href="#cb1-28"></a>    s_expo[i]<span class="ot">&lt;-</span> <span class="fu">var</span>(rand.expo)</span>
+<span id="cb1-29"><a href="#cb1-29"></a>    sn_expo[i]<span class="ot">&lt;-</span>(num<span class="sc">/</span>(num<span class="dv">-1</span>))<span class="sc">*</span><span class="fu">var</span>(rand.expo)</span>
+<span id="cb1-30"><a href="#cb1-30"></a></span>
+<span id="cb1-31"><a href="#cb1-31"></a>    <span class="co"># binom distrib</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a>    rand.binom<span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>num, <span class="at">size=</span><span class="dv">50</span>, <span class="at">prob=</span>(<span class="dv">5</span><span class="sc">-</span><span class="fu">sqrt</span>(<span class="dv">21</span>))<span class="sc">/</span><span class="dv">10</span>)</span>
+<span id="cb1-33"><a href="#cb1-33"></a>    s_binom[i]<span class="ot">&lt;-</span> <span class="fu">var</span>(rand.binom)</span>
+<span id="cb1-34"><a href="#cb1-34"></a>    sn_binom[i]<span class="ot">&lt;-</span> (num<span class="sc">/</span>(num<span class="dv">-1</span>))<span class="sc">*</span><span class="fu">var</span>(rand.binom)</span>
+<span id="cb1-35"><a href="#cb1-35"></a>  }</span>
+<span id="cb1-36"><a href="#cb1-36"></a></span>
+<span id="cb1-37"><a href="#cb1-37"></a>  <span class="do">## cretaed a tibble with all the sn and s(n-1) for each distribution</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a>  dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-39"><a href="#cb1-39"></a>    <span class="at">s_binom=</span>s_binom,</span>
+<span id="cb1-40"><a href="#cb1-40"></a>    <span class="at">sn_binom=</span>sn_binom,</span>
+<span id="cb1-41"><a href="#cb1-41"></a>    <span class="at">s_expo=</span>s_expo,</span>
+<span id="cb1-42"><a href="#cb1-42"></a>    <span class="at">sn_expo=</span>sn_expo,</span>
+<span id="cb1-43"><a href="#cb1-43"></a>    <span class="at">s_norm=</span>s_norm,</span>
+<span id="cb1-44"><a href="#cb1-44"></a>    <span class="at">sn_norm=</span>sn_norm,</span>
+<span id="cb1-45"><a href="#cb1-45"></a>    <span class="at">s_pois=</span>s_pois,</span>
+<span id="cb1-46"><a href="#cb1-46"></a>    <span class="at">sn_pois=</span>sn_pois</span>
+<span id="cb1-47"><a href="#cb1-47"></a>  )</span>
+<span id="cb1-48"><a href="#cb1-48"></a></span>
+<span id="cb1-49"><a href="#cb1-49"></a>  <span class="co"># reshape with pivot_longer and seperated into estimator and distribution</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a>  res.long<span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb1-51"><a href="#cb1-51"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb1-52"><a href="#cb1-52"></a>      <span class="at">cols=</span><span class="fu">everything</span>(),</span>
+<span id="cb1-53"><a href="#cb1-53"></a>      <span class="at">names_to=</span><span class="st">"variance"</span>,</span>
+<span id="cb1-54"><a href="#cb1-54"></a>      <span class="at">values_to=</span><span class="st">"vals"</span></span>
+<span id="cb1-55"><a href="#cb1-55"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb1-56"><a href="#cb1-56"></a>    <span class="fu">separate</span>(variance, <span class="at">into=</span><span class="fu">c</span>(<span class="st">"Estimator"</span>,<span class="st">"Distribution"</span>), <span class="at">sep=</span><span class="st">"_"</span>)</span>
+<span id="cb1-57"><a href="#cb1-57"></a></span>
+<span id="cb1-58"><a href="#cb1-58"></a>  <span class="fu">return</span>(res.long)</span>
+<span id="cb1-59"><a href="#cb1-59"></a>}</span>
+<span id="cb1-60"><a href="#cb1-60"></a></span>
+<span id="cb1-61"><a href="#cb1-61"></a>res<span class="ot">&lt;-</span> <span class="fu">estimator.comparison</span>(<span class="dv">20</span>)</span>
+<span id="cb1-62"><a href="#cb1-62"></a>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,000 × 3
+   Estimator Distribution  vals
+   &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;
+ 1 s         binom         2.85
+ 2 sn        binom         3.00
+ 3 s         expo          3.61
+ 4 sn        expo          3.80
+ 5 s         norm          2.00
+ 6 sn        norm          2.10
+ 7 s         pois          3.06
+ 8 sn        pois          3.22
+ 9 s         binom         1.19
+10 sn        binom         1.25
+# ℹ 7,990 more rows</code></pre>
+</div>
+</div>
+<p>Create a plot or combination of plots (using patchwork) to show the results across all four distributions. Make sure to create a corresponding table that numerically summarizes the results of the simulation. You should include <span class="math display">\[\begin{align*}
+\textrm{Bias} &amp;= \textrm{Average of Estimates} - \textrm{True Value}\\
+\textrm{Precision} &amp;= \frac{1}{\textrm{Variance of Estimates}}\\
+\textrm{Mean Square Error} &amp;= \textrm{Bias}^2 + \textrm{Variance of Estimates}.
+\end{align*}\]</span></p>
+<p><strong>Solution:</strong></p>
+<p>Created a box plot to visualise and compare the variance(n) and variance(n-1) across all the distributions. Created a numerical summary of the results showing mean, variance, bias, precision and MSE.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># size: scriptsize</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># box plot to visualise results across all distributions</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>res.plot<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res)<span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Estimator, <span class="at">y=</span>vals)) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Distribution) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a>(res.plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab11WriteUp_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="do">## numerical summary with mean , bias, variance, precision, MSE</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>res.summary.table<span class="ot">&lt;-</span> res <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">group_by</span>(Distribution, Estimator) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="at">Mean=</span><span class="fu">mean</span>(vals),</span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="at">Variance=</span><span class="fu">var</span>(vals),</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    <span class="at">Bias=</span><span class="fu">mean</span>(vals)<span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    <span class="at">Precision=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">var</span>(vals),</span>
+<span id="cb4-9"><a href="#cb4-9"></a>    <span class="at">MSE=</span>Bias<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> Variance</span>
+<span id="cb4-10"><a href="#cb4-10"></a>  )</span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-12"><a href="#cb4-12"></a>(res.summary.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Summary of Variance Estimators
+</figcaption>
+<div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 7
+# Groups:   Distribution [4]
+  Distribution Estimator  Mean Variance     Bias Precision   MSE
+  &lt;chr&gt;        &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+1 binom        s          1.93    0.455 -0.0743      2.20  0.460
+2 binom        sn         2.03    0.504  0.0271      1.98  0.505
+3 expo         s          2.01    1.57   0.00740     0.638 1.57 
+4 expo         sn         2.11    1.74   0.113       0.576 1.75 
+5 norm         s          2.01    0.485  0.0102      2.06  0.485
+6 norm         sn         2.12    0.537  0.116       1.86  0.551
+7 pois         s          1.99    0.490 -0.00930     2.04  0.490
+8 pois         sn         2.10    0.543  0.0955      1.84  0.552</code></pre>
+</div>
+</div>
+</figure>
+</div>
+</section>
+<section id="simulation-over-various-sample-sizes" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="simulation-over-various-sample-sizes"><span class="header-section-number">2.2</span> Simulation over various sample sizes</h2>
+<p>Consider the effect of the sample size have on these results. Provide a graphical and numerical summary of what happens as <span class="math inline">\(n\)</span> increases – say <span class="math inline">\(n=20\)</span>, <span class="math inline">\(n=50\)</span>, <span class="math inline">\(n=100\)</span>, and <span class="math inline">\(n=500\)</span>. Does the result in your initial simulation hold across samples? Or, do things change as the sample size changes? Ensure to set your randomization seed.</p>
+<p><strong>Solution</strong></p>
+<p>Repeated excercise in section 2.1 across different n values and plotted boxplots to visualise each</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>res50<span class="ot">&lt;-</span> <span class="fu">estimator.comparison</span>(<span class="dv">50</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>res100<span class="ot">&lt;-</span> <span class="fu">estimator.comparison</span>(<span class="dv">100</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>res500<span class="ot">&lt;-</span> <span class="fu">estimator.comparison</span>(<span class="dv">500</span>)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co"># box plot to visualise results across all distributions</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>res50.plot<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res50)<span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Estimator, <span class="at">y=</span>vals)) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Distribution) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box plot showing results across distributions with n=50"</span>) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a>(res50.plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab11WriteUp_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="do">## numerical summary with mean , bias, variance, precision, MSE</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>res50.summary<span class="ot">&lt;-</span> res50 <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">group_by</span>(Distribution, Estimator) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="at">Mean=</span><span class="fu">mean</span>(vals),</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="at">Variance=</span><span class="fu">var</span>(vals),</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="at">Bias=</span><span class="fu">mean</span>(vals)<span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb7-8"><a href="#cb7-8"></a>    <span class="at">Precision=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">var</span>(vals),</span>
+<span id="cb7-9"><a href="#cb7-9"></a>    <span class="at">MSE=</span>Bias<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> Variance</span>
+<span id="cb7-10"><a href="#cb7-10"></a>  )</span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a>(res50.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 7
+# Groups:   Distribution [4]
+  Distribution Estimator  Mean Variance      Bias Precision   MSE
+  &lt;chr&gt;        &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+1 binom        s          1.99    0.192 -0.0103        5.22 0.192
+2 binom        sn         2.03    0.199  0.0303        5.01 0.200
+3 expo         s          1.99    0.615 -0.0147        1.62 0.616
+4 expo         sn         2.03    0.641  0.0258        1.56 0.642
+5 norm         s          2.00    0.167 -0.000989      5.97 0.167
+6 norm         sn         2.04    0.174  0.0398        5.74 0.176
+7 pois         s          2.00    0.200  0.00442       5.00 0.200
+8 pois         sn         2.05    0.208  0.0453        4.80 0.210</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># box plot to visualise results across all distributions</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>res100.plot<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res100)<span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Estimator, <span class="at">y=</span>vals)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Distribution) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box plot showing results across distributions with n=100"</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a>(res100.plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab11WriteUp_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="do">## numerical summary with mean , bias, variance, precision, MSE</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>res100.summary<span class="ot">&lt;-</span> res100 <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">group_by</span>(Distribution, Estimator) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    <span class="at">Mean=</span><span class="fu">mean</span>(vals),</span>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="at">Variance=</span><span class="fu">var</span>(vals),</span>
+<span id="cb10-7"><a href="#cb10-7"></a>    <span class="at">Bias=</span><span class="fu">mean</span>(vals)<span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    <span class="at">Precision=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">var</span>(vals),</span>
+<span id="cb10-9"><a href="#cb10-9"></a>    <span class="at">MSE=</span>Bias<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> Variance</span>
+<span id="cb10-10"><a href="#cb10-10"></a>  )</span>
+<span id="cb10-11"><a href="#cb10-11"></a> </span>
+<span id="cb10-12"><a href="#cb10-12"></a>(res100.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 7
+# Groups:   Distribution [4]
+  Distribution Estimator  Mean Variance     Bias Precision    MSE
+  &lt;chr&gt;        &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+1 binom        s          2.01   0.0941  0.00599     10.6  0.0941
+2 binom        sn         2.03   0.0960  0.0262      10.4  0.0967
+3 expo         s          2.02   0.328   0.0203       3.05 0.328 
+4 expo         sn         2.04   0.334   0.0407       2.99 0.336 
+5 norm         s          2.00   0.0800  0.00470     12.5  0.0800
+6 norm         sn         2.02   0.0816  0.0250      12.2  0.0823
+7 pois         s          1.99   0.0887 -0.0112      11.3  0.0888
+8 pois         sn         2.01   0.0905  0.00884     11.0  0.0906</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># box plot to visualise results across all distributions</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>res500.plot<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res500)<span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Estimator, <span class="at">y=</span>vals)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Distribution) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box plot showing results across distributions with n=500"</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb12-8"><a href="#cb12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9"></a>(res500.plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab11WriteUp_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="do">## numerical summary with mean , bias, variance, precision, MSE</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>res500.summary<span class="ot">&lt;-</span> res500 <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">group_by</span>(Distribution, Estimator) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb13-5"><a href="#cb13-5"></a>    <span class="at">Mean=</span><span class="fu">mean</span>(vals),</span>
+<span id="cb13-6"><a href="#cb13-6"></a>    <span class="at">Variance=</span><span class="fu">var</span>(vals),</span>
+<span id="cb13-7"><a href="#cb13-7"></a>    <span class="at">Bias=</span><span class="fu">mean</span>(vals)<span class="sc">-</span><span class="dv">2</span>,</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="at">Precision=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">var</span>(vals),</span>
+<span id="cb13-9"><a href="#cb13-9"></a>    <span class="at">MSE=</span>Bias<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> Variance</span>
+<span id="cb13-10"><a href="#cb13-10"></a>  )</span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a>(res500.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 7
+# Groups:   Distribution [4]
+  Distribution Estimator  Mean Variance      Bias Precision    MSE
+  &lt;chr&gt;        &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+1 binom        s          2.00   0.0191  0.000108      52.3 0.0191
+2 binom        sn         2.00   0.0192  0.00412       52.1 0.0192
+3 expo         s          1.99   0.0585 -0.00775       17.1 0.0585
+4 expo         sn         2.00   0.0587 -0.00375       17.0 0.0587
+5 norm         s          2.00   0.0173  0.00376       57.8 0.0173
+6 norm         sn         2.01   0.0174  0.00778       57.5 0.0174
+7 pois         s          2.01   0.0207  0.00717       48.4 0.0207
+8 pois         sn         2.01   0.0208  0.0112        48.2 0.0209</code></pre>
+</div>
+</div>
+<p></p>
+</section>
+<section id="simulation" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="simulation"><span class="header-section-number">2.3</span> Simulation</h2>
+<p>You have written code to draw a random sample of various sizes from each distribution, and to calculate and store the calculated estimates. Rework your code to produce a density plot of the <span class="math inline">\(s_{n-1}^2\)</span> and <span class="math inline">\(s_{n}^2\)</span>. Do you have a guess about their distribution? Ensure to set your randomization seed.</p>
+<p><strong>Solution:</strong></p>
+<p>Used <code>geom_density()</code> to visualise the desnity plot across the four distirbutions. Used patchwork to display the density graphs side by side and vertially for better comparisons. The plots look normal but a bit right-skewed for smaller sample sizes.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="do">## density plot showing how spread out the estimators are from the actual value(2)</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">set.seed</span>(<span class="dv">7272</span>)</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="co"># sample size labels</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>res<span class="sc">$</span>n<span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>res50<span class="sc">$</span>n<span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>res100<span class="sc">$</span>n<span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>res500<span class="sc">$</span>n<span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co"># combine results</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a>all.res<span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(res, res50, res100, res500)</span>
+<span id="cb15-12"><a href="#cb15-12"></a></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="co"># make into a factor to order</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a>all.res<span class="sc">$</span>n<span class="ot">&lt;-</span> <span class="fu">factor</span>(all.res<span class="sc">$</span>n, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>))</span>
+<span id="cb15-15"><a href="#cb15-15"></a></span>
+<span id="cb15-16"><a href="#cb15-16"></a><span class="co"># density plot with geom_density</span></span>
+<span id="cb15-17"><a href="#cb15-17"></a>res.density.plot<span class="ot">&lt;-</span><span class="fu">ggplot</span>(all.res) <span class="sc">+</span></span>
+<span id="cb15-18"><a href="#cb15-18"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> vals, <span class="at">fill =</span> Estimator), <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb15-19"><a href="#cb15-19"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span> Distribution, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb15-21"><a href="#cb15-21"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-22"><a href="#cb15-22"></a>    <span class="at">title =</span> <span class="st">"Sampling Distributions of Variance Estimators"</span>,</span>
+<span id="cb15-23"><a href="#cb15-23"></a>    <span class="at">x =</span> <span class="st">"Estimate"</span>,</span>
+<span id="cb15-24"><a href="#cb15-24"></a>    <span class="at">y =</span> <span class="st">"Density"</span></span>
+<span id="cb15-25"><a href="#cb15-25"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-26"><a href="#cb15-26"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb15-27"><a href="#cb15-27"></a></span>
+<span id="cb15-28"><a href="#cb15-28"></a></span>
+<span id="cb15-29"><a href="#cb15-29"></a>(res.density.plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab11WriteUp_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bootstrap" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="bootstrap"><span class="header-section-number">2.4</span> Bootstrap</h2>
+<p>Now, take <em>one</em> sample from each distribution. Instead of drawing a random sample at each iteration, sample <em>with replacement</em> from the one sample. Produce a density plot of the <span class="math inline">\(s_{n-1}^2\)</span> and <span class="math inline">\(s_{n}^2\)</span>. Do we get roughly the same information as we do in the full simulation? Try this over several seeds – what do you notice? Ensure to set your randomization seed.</p>
+<p><strong>Solution</strong></p>
+<p>Took a sample from each distribution and sampled with replacedment x times using a for-loop. Stored results in a tibble and reshaped using <code>pivot_longer()</code> then plotted a density plot using <code>geom_density()</code> to visualise the results.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">set.seed</span>(<span class="dv">7272</span>) <span class="co"># randomization seed</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>x <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>num <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co"># original samples for each distrib</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>orig.norm<span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> num, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">2</span>))</span>
+<span id="cb16-7"><a href="#cb16-7"></a>orig.pois<span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> num, <span class="at">lambda =</span> <span class="dv">2</span>)</span>
+<span id="cb16-8"><a href="#cb16-8"></a>orig.expo<span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="at">n =</span> num, <span class="at">rate =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">2</span>))</span>
+<span id="cb16-9"><a href="#cb16-9"></a>orig.binom<span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> num, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> (<span class="dv">5</span> <span class="sc">-</span> <span class="fu">sqrt</span>(<span class="dv">21</span>)) <span class="sc">/</span> <span class="dv">10</span>)</span>
+<span id="cb16-10"><a href="#cb16-10"></a></span>
+<span id="cb16-11"><a href="#cb16-11"></a><span class="co"># storage</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a>s.norm<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-13"><a href="#cb16-13"></a>sn.norm<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-14"><a href="#cb16-14"></a>s.pois<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-15"><a href="#cb16-15"></a>sn.pois<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-16"><a href="#cb16-16"></a>s.expo<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-17"><a href="#cb16-17"></a>sn.expo<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-18"><a href="#cb16-18"></a>s.binom<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-19"><a href="#cb16-19"></a>sn.binom<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb16-20"><a href="#cb16-20"></a></span>
+<span id="cb16-21"><a href="#cb16-21"></a><span class="co"># loops to change samples x times</span></span>
+<span id="cb16-22"><a href="#cb16-22"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>x){</span>
+<span id="cb16-23"><a href="#cb16-23"></a>  <span class="co"># bootstrap samples</span></span>
+<span id="cb16-24"><a href="#cb16-24"></a>  boot.norm<span class="ot">&lt;-</span> <span class="fu">sample</span>(orig.norm, <span class="at">size =</span> num, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-25"><a href="#cb16-25"></a>  boot.pois<span class="ot">&lt;-</span> <span class="fu">sample</span>(orig.pois, <span class="at">size =</span> num, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-26"><a href="#cb16-26"></a>  boot.expo<span class="ot">&lt;-</span> <span class="fu">sample</span>(orig.expo, <span class="at">size =</span> num, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-27"><a href="#cb16-27"></a>  boot.binom<span class="ot">&lt;-</span> <span class="fu">sample</span>(orig.binom, <span class="at">size =</span> num, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-28"><a href="#cb16-28"></a></span>
+<span id="cb16-29"><a href="#cb16-29"></a>  <span class="co"># store in variables</span></span>
+<span id="cb16-30"><a href="#cb16-30"></a>  s.norm[i]<span class="ot">&lt;-</span> <span class="fu">var</span>(boot.norm)</span>
+<span id="cb16-31"><a href="#cb16-31"></a>  sn.norm[i]<span class="ot">&lt;-</span> ((num<span class="dv">-1</span>)<span class="sc">/</span>num)<span class="sc">*</span><span class="fu">var</span>(boot.norm)</span>
+<span id="cb16-32"><a href="#cb16-32"></a>  s.pois[i]<span class="ot">&lt;-</span> <span class="fu">var</span>(boot.pois)</span>
+<span id="cb16-33"><a href="#cb16-33"></a>  sn.pois[i]<span class="ot">&lt;-</span> ((num<span class="dv">-1</span>)<span class="sc">/</span>num)<span class="sc">*</span><span class="fu">var</span>(boot.pois)</span>
+<span id="cb16-34"><a href="#cb16-34"></a>  s.expo[i]<span class="ot">&lt;-</span> <span class="fu">var</span>(boot.expo)</span>
+<span id="cb16-35"><a href="#cb16-35"></a>  sn.expo[i]<span class="ot">&lt;-</span> ((num<span class="dv">-1</span>)<span class="sc">/</span>num)<span class="sc">*</span><span class="fu">var</span>(boot.expo)</span>
+<span id="cb16-36"><a href="#cb16-36"></a>  s.binom[i]<span class="ot">&lt;-</span> <span class="fu">var</span>(boot.binom)</span>
+<span id="cb16-37"><a href="#cb16-37"></a>  sn.binom[i]<span class="ot">&lt;-</span> ((num<span class="dv">-1</span>)<span class="sc">/</span>num)<span class="sc">*</span><span class="fu">var</span>(boot.binom)</span>
+<span id="cb16-38"><a href="#cb16-38"></a>}</span>
+<span id="cb16-39"><a href="#cb16-39"></a></span>
+<span id="cb16-40"><a href="#cb16-40"></a><span class="co"># store results in tibble</span></span>
+<span id="cb16-41"><a href="#cb16-41"></a>boot.dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-42"><a href="#cb16-42"></a>  <span class="at">s_norm =</span> s.norm,</span>
+<span id="cb16-43"><a href="#cb16-43"></a>  <span class="at">sn_norm =</span> sn.norm,</span>
+<span id="cb16-44"><a href="#cb16-44"></a>  <span class="at">s_pois =</span> s.pois,</span>
+<span id="cb16-45"><a href="#cb16-45"></a>  <span class="at">sn_pois =</span> sn.pois,</span>
+<span id="cb16-46"><a href="#cb16-46"></a>  <span class="at">s_expo =</span> s.expo,</span>
+<span id="cb16-47"><a href="#cb16-47"></a>  <span class="at">sn_expo =</span> sn.expo,</span>
+<span id="cb16-48"><a href="#cb16-48"></a>  <span class="at">s_binom =</span> s.binom,</span>
+<span id="cb16-49"><a href="#cb16-49"></a>  <span class="at">sn_binom =</span> sn.binom</span>
+<span id="cb16-50"><a href="#cb16-50"></a>)</span>
+<span id="cb16-51"><a href="#cb16-51"></a></span>
+<span id="cb16-52"><a href="#cb16-52"></a><span class="co"># reshape with pivot_longer &amp; seperate into estimator and destrib</span></span>
+<span id="cb16-53"><a href="#cb16-53"></a>boot.res <span class="ot">&lt;-</span> boot.dat <span class="sc">|&gt;</span></span>
+<span id="cb16-54"><a href="#cb16-54"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb16-55"><a href="#cb16-55"></a>    <span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb16-56"><a href="#cb16-56"></a>    <span class="at">names_to =</span> <span class="st">"variance"</span>,</span>
+<span id="cb16-57"><a href="#cb16-57"></a>    <span class="at">values_to =</span> <span class="st">"vals"</span></span>
+<span id="cb16-58"><a href="#cb16-58"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-59"><a href="#cb16-59"></a>  <span class="fu">separate</span>(variance, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Estimator"</span>, <span class="st">"Distribution"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb16-60"><a href="#cb16-60"></a></span>
+<span id="cb16-61"><a href="#cb16-61"></a><span class="co"># desity plot</span></span>
+<span id="cb16-62"><a href="#cb16-62"></a>boot.density.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(boot.res) <span class="sc">+</span></span>
+<span id="cb16-63"><a href="#cb16-63"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> vals, <span class="at">fill =</span> Estimator), <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb16-64"><a href="#cb16-64"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb16-65"><a href="#cb16-65"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Distribution, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb16-66"><a href="#cb16-66"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-67"><a href="#cb16-67"></a>    <span class="at">x =</span> <span class="st">"Variance Estimate"</span>,</span>
+<span id="cb16-68"><a href="#cb16-68"></a>    <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb16-69"><a href="#cb16-69"></a>    <span class="at">title =</span> <span class="st">"Bootstrap Distributions of Variance Estimators"</span></span>
+<span id="cb16-70"><a href="#cb16-70"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-71"><a href="#cb16-71"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb16-72"><a href="#cb16-72"></a></span>
+<span id="cb16-73"><a href="#cb16-73"></a>(boot.density.plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab11WriteUp_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+</section>
+</section>
+<section id="executive-summary" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Executive Summary</h1>
+<p>Summarize the work you’ve done here to provide a brief (200-300 word) summary of the simulation and the results using your work in Lab 11. Your summary should be professional, clear, and all claims should be corroborated with statistical support.</p>
+<p><strong>Solution</strong></p>
+<p>In this lab, I explored the differences between the variance estimators when using n and n-1​ using simulation across four distributions (Poisson, Binomial, Normal, and Exponential), each with a true variance of 2. By repeatedly sampling and computing both estimators, I compared their bias, variability, and accuracy through their means, variances, and mean squared errors (MSE). In the numerical summary table in section 2.1, for smaller sample sizes (n=20), variance S(n-1)​ consistently produced estimates closer to the true variance (values around 2), while S(n)​ tended to underestimate it which led to higher MSE values, showing less reliable performance in small samples. The boxplots and density plots visualisations supported this, showing that estimates from S(n-1) were more centered around the true value. As the sample size increased (n=50, 100, 500) both estimators improved and converged toward the true variance, with differences becoming less and less. Density plots also showed that the sampling distributions became more concentrated and kinda normal as n increased. Bootstrap simulations produced similar patterns, reinforcing the idea that variance with n-1 is more reliable, especially when working with smaller samples. The results support using variance S(n-1) as the preferred estimator due to its lower bias and more consistency.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
