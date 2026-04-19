@@ -352,7 +352,8 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dat.kitsberg.cleaned<span class="ot">&lt;-</span> <span class="fu">separate</span>(biomed.dat, <span class="at">col=</span><span class="st">"sample"</span>, <span class="at">into=</span><span class="fu">c</span>(<span class="st">"SampleType"</span>, <span class="st">"CellType"</span>, <span class="st">"Treatment"</span>), <span class="at">sep=</span><span class="st">"_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dat.kitsberg.cleaned<span class="ot">&lt;-</span> biomed.dat <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">separate</span>(<span class="at">col=</span><span class="st">"sample"</span>, <span class="at">into=</span><span class="fu">c</span>(<span class="st">"SampleType"</span>, <span class="st">"CellType"</span>, <span class="st">"Treatment"</span>), <span class="at">sep=</span><span class="st">"_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p></p>

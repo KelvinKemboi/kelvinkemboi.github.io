@@ -118,7 +118,8 @@ The data need to be cleaned. Note that the sample type (Healthy Donor or THP-1),
 Used the `seperate()` function to split the data uder `sample` into `SampleType`, `CellType`, `Treatment` columns. Saved it in `dat.kitsberg.cleaned`
 ```{r}
 #| size: scriptsize
-dat.kitsberg.cleaned<- separate(biomed.dat, col="sample", into=c("SampleType", "CellType", "Treatment"), sep="_")
+dat.kitsberg.cleaned<- biomed.dat |>
+  separate(col="sample", into=c("SampleType", "CellType", "Treatment"), sep="_")
 ```
 
 
