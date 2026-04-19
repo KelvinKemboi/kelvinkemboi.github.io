@@ -2,7 +2,7 @@
 title: "Kelvin's Space"
 about:
   template: jolla
-  image: profile.jpeg
+  image: profile.jpg
   links:
     - icon: briefcase
       text: Portfolio
