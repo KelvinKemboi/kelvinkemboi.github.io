@@ -1,0 +1,430 @@
+---
+title: Lab Eleven -- Point Estimation and Resampling # Title of the document
+
+# Bibliography Details
+bibliography: Lab11References.bib  # Name of bib file in the same folder 
+bibliographystyle: apa            # Bibliography style
+
+execute:               # Default settings for code blocks
+  warning: false       # Do not print warnings
+  message: false       # Do not print messages
+  size: "scriptsize"   # Set code size to script size
+
+# Below will do html by default. To render the entire project
+# Use the following code:
+# quarto::quarto_render("Lab10WriteUp.qmd")
+format:
+  pdf:        # Specify .pdf formatting options 
+    documentclass: article     # Document Class
+    number-sections: true      # Number Sections
+    reference-section-title: "References" # Title for reference section
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables 
+    geometry:
+      - top=0.75in
+      - left=0.75in
+      - bottom=0.75in
+      - right=0.75in
+  html:       # Specify HTML formatting options 
+    number-sections: true      # Number Sections
+    code-fold: true            # Button to show code
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables and figures
+format-links: [pdf]
+---
+```{r}
+#| echo: false
+
+default_chunk_hook  <- knitr::knit_hooks$get("chunk")
+
+latex_font_size <- c("Huge", "huge", "LARGE", "Large", 
+                     "large", "normalsize", "small", 
+                     "footnotesize", "scriptsize", "tiny")
+
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- default_chunk_hook(x, options)
+  if(options$size %in% latex_font_size) {
+    paste0("\n \\", options$size, "\n\n", 
+      x, 
+      "\n\n \\normalsize"
+    )
+  } else {
+    x
+  }
+})
+```
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+library(patchwork)
+```
+
+**Tips**
+
+* Complete the tasks below. Make sure to start your solutions in on a new line that starts with "**Solution**:".
+* Make sure to use the Quarto Cheatsheet. This will make completing and writing up the lab *much* easier.
+* Make sure to use "enter" to make your code readable, so it doesn't run off the page. I switched the Quarto document to automatically render to .pdf, so you can see what you're submitting by default. You can switch back for the highlighting by moving the html block above the pdf block in the YAML header.
+* Don't forget that you can copy-and-paste code when you're doing something similar as we did in class!
+* Make sure to plot all computed probabilities. This is good `ggplot` practice AND will help make sure you don't make a mistake when computing the probability.
+
+
+# Introduction
+When performing point estimation, there isn't just one *right* answer. For example, the Method of Moments (MOM) and Maximum Likelihood Estimates (MLEs) aren't always the same.
+
+One question that comes up, is why we calculate the sample variance as
+$$S_{n-1}^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i -\bar{X})^2,$$
+when it is supposed to be the ``average squared distance from the mean, i.e., 
+$$S_n^2 = \frac{1}{n} \sum_{i=1}^n (X_i -\bar{X})^2.$$
+
+
+# Comparing Estimators
+
+## Initial Simulation
+In this lab, we will explore why we use $S_{n-1}^2$ and not $S_n^2$. To do this, we will generate data from four known distributions:
+
+* Poisson$(\lambda=2)$
+* Binomial$\left(n=50, p=\frac{5-\sqrt{21}}{10}\right)$
+* Normal$(\mu=0, \sigma=\sqrt{2})$
+* Exponential$\left(\lambda = \frac{1}{\sqrt{2}}\right).$
+
+**Remark**: Note that I have selected the parameters so that the true variance for all four models is 2.
+
+For each distribution, write a loop that completes the following 1000 times. Put `set.seed(7272)` at the top of your code chunk.
+
+* Generate a sample of size $n$ from the distribution.
+* Calculate and save $S_{n-1}^2$ and $S_n^2.$
+
+Start with $n=20$. Is there evidence that $S_{n-1}^2$ is a better estimator than $S_n^2$?
+
+**Solution:**
+
+Created a function to compare estimatores and used a for loop to compute variance with n and n-1, storing the values in their repective varaibles. Put the data in a tibble, reshaped with `pivot_longer()` and seperated the variables into estimator and distribution for easier plotting and comparisons.
+
+```{r}
+#| size: sciptsize
+
+set.seed(7272)
+
+s_norm<- rep(NA, 1000)
+sn_norm<- rep(NA, 1000)
+s_binom<- rep(NA, 1000)
+sn_binom<- rep(NA, 1000)
+s_expo<- rep(NA, 1000)
+sn_expo<- rep(NA, 1000)
+s_pois<- rep(NA, 1000)
+sn_pois<- rep(NA, 1000)
+n<-1000
+
+# function to compare estimators across different distribtuions
+estimator.comparison<-function(num){
+  for(i in 1:n){ ##loop through 1000 samples
+    # normal distrib
+    rand.norm<- rnorm(n=num, mean=0, sd=sqrt(2))
+    s_norm[i]<- var(rand.norm)
+    sn_norm[i]<- (num/(num-1))*var(rand.norm)
+
+    # poisson distrib
+    rand.pois<- rpois(n=num, lambda=2)
+    s_pois[i]<-var(rand.pois)
+    sn_pois[i]<-(num/(num-1))*var(rand.pois)
+
+    # exp distrib
+    rand.expo<-rexp(n=num, rate=1/sqrt(2))
+    s_expo[i]<- var(rand.expo)
+    sn_expo[i]<-(num/(num-1))*var(rand.expo)
+
+    # binom distrib
+    rand.binom<- rbinom(n=num, size=50, prob=(5-sqrt(21))/10)
+    s_binom[i]<- var(rand.binom)
+    sn_binom[i]<- (num/(num-1))*var(rand.binom)
+  }
+
+  ## cretaed a tibble with all the sn and s(n-1) for each distribution
+  dat <- tibble(
+    s_binom=s_binom,
+    sn_binom=sn_binom,
+    s_expo=s_expo,
+    sn_expo=sn_expo,
+    s_norm=s_norm,
+    sn_norm=sn_norm,
+    s_pois=s_pois,
+    sn_pois=sn_pois
+  )
+
+  # reshape with pivot_longer and seperated into estimator and distribution
+  res.long<- dat |> 
+    pivot_longer(
+      cols=everything(),
+      names_to="variance",
+      values_to="vals"
+    ) |>
+    separate(variance, into=c("Estimator","Distribution"), sep="_")
+
+  return(res.long)
+}
+
+res<- estimator.comparison(20)
+(res)
+```
+
+Create a plot or combination of plots (using patchwork) to show the results across all four distributions. Make sure to create a corresponding table that numerically summarizes the results of the simulation. You should include
+\begin{align*}
+\textrm{Bias} &= \textrm{Average of Estimates} - \textrm{True Value}\\
+\textrm{Precision} &= \frac{1}{\textrm{Variance of Estimates}}\\
+\textrm{Mean Square Error} &= \textrm{Bias}^2 + \textrm{Variance of Estimates}.
+\end{align*}
+
+**Solution:**
+
+Created a box plot to visualise and compare the variance(n) and variance(n-1) across all the distributions. Created a numerical summary of the results showing mean, variance, bias, precision and MSE. 
+
+```{r}
+# size: scriptsize
+
+# box plot to visualise results across all distributions
+res.plot<- ggplot(res)+
+  geom_boxplot(aes(x=Estimator, y=vals)) +
+  geom_hline(yintercept=2) +
+  facet_wrap(~Distribution) +
+  theme_bw()
+
+(res.plot)
+```
+
+```{r}
+#| size: sciptsize
+#| label: tbl-summary
+#| tbl-cap: "Summary of Variance Estimators"
+
+## numerical summary with mean , bias, variance, precision, MSE
+res.summary.table<- res |>
+  group_by(Distribution, Estimator) |>
+  summarise(
+    Mean=mean(vals),
+    Variance=var(vals),
+    Bias=mean(vals)-2,
+    Precision=1/var(vals),
+    MSE=Bias^2 + Variance
+  )
+
+(res.summary.table)
+```
+
+## Simulation over various sample sizes
+Consider the effect of the sample size have on these results. Provide a graphical and numerical summary of what happens as $n$ increases -- say $n=20$, $n=50$, $n=100$, and $n=500$. Does the result in your initial simulation hold across samples? Or, do things change as the sample size changes? Ensure to set your randomization seed.
+
+**Solution**
+
+Repeated excercise in section 2.1 across different n values and plotted boxplots to visualise each
+
+```{r}
+#| size: scriptsize
+
+res50<- estimator.comparison(50)
+res100<- estimator.comparison(100)
+res500<- estimator.comparison(500)
+
+# box plot to visualise results across all distributions
+res50.plot<- ggplot(res50)+
+  geom_boxplot(aes(x=Estimator, y=vals)) +
+  geom_hline(yintercept=2) +
+  facet_wrap(~Distribution) +
+  labs(title = "Box plot showing results across distributions with n=50") +
+  theme_bw()
+
+(res50.plot)
+
+## numerical summary with mean , bias, variance, precision, MSE
+res50.summary<- res50 |>
+  group_by(Distribution, Estimator) |>
+  summarise(
+    Mean=mean(vals),
+    Variance=var(vals),
+    Bias=mean(vals)-2,
+    Precision=1/var(vals),
+    MSE=Bias^2 + Variance
+  )
+
+(res50.summary)
+# box plot to visualise results across all distributions
+res100.plot<- ggplot(res100)+
+  geom_boxplot(aes(x=Estimator, y=vals)) +
+  geom_hline(yintercept=2) +
+  facet_wrap(~Distribution) +
+  labs(title = "Box plot showing results across distributions with n=100") +
+  theme_bw()
+
+(res100.plot)
+
+## numerical summary with mean , bias, variance, precision, MSE
+res100.summary<- res100 |>
+  group_by(Distribution, Estimator) |>
+  summarise(
+    Mean=mean(vals),
+    Variance=var(vals),
+    Bias=mean(vals)-2,
+    Precision=1/var(vals),
+    MSE=Bias^2 + Variance
+  )
+ 
+(res100.summary)
+  
+# box plot to visualise results across all distributions
+res500.plot<- ggplot(res500)+
+  geom_boxplot(aes(x=Estimator, y=vals)) +
+  geom_hline(yintercept=2) +
+  facet_wrap(~Distribution) +
+  labs(title = "Box plot showing results across distributions with n=500") +
+  theme_bw()
+
+(res500.plot)
+## numerical summary with mean , bias, variance, precision, MSE
+res500.summary<- res500 |>
+  group_by(Distribution, Estimator) |>
+  summarise(
+    Mean=mean(vals),
+    Variance=var(vals),
+    Bias=mean(vals)-2,
+    Precision=1/var(vals),
+    MSE=Bias^2 + Variance
+  )
+
+(res500.summary)
+```
+
+## Simulation
+You have written code to draw a random sample of various sizes from each distribution, and to calculate and store the calculated estimates. Rework your code to produce a density plot of the $s_{n-1}^2$ and $s_{n}^2$. Do you have a guess about their distribution? Ensure to set your randomization seed. 
+
+**Solution:**
+
+Used `geom_density()` to visualise the desnity plot across the four distirbutions. Used patchwork to display the density graphs side by side and vertially for better comparisons. The plots look normal but a bit right-skewed for smaller sample sizes. 
+
+```{r}
+#| size: sciptsize
+
+## density plot showing how spread out the estimators are from the actual value(2)
+set.seed(7272)
+
+# sample size labels
+res$n<- 20
+res50$n<- 50
+res100$n<- 100
+res500$n<- 500
+
+# combine results
+all.res<- bind_rows(res, res50, res100, res500)
+
+# make into a factor to order
+all.res$n<- factor(all.res$n, levels = c(20, 50, 100, 500))
+
+# density plot with geom_density
+res.density.plot<-ggplot(all.res) +
+  geom_density(aes(x = vals, fill = Estimator), alpha = 0.4) +
+  geom_vline(xintercept = 2, linetype = "dashed") +
+  facet_grid(~ Distribution, scales = "free_x") +
+  labs(
+    title = "Sampling Distributions of Variance Estimators",
+    x = "Estimate",
+    y = "Density"
+  ) +
+  theme_bw()
+
+
+(res.density.plot)
+```
+
+## Bootstrap
+Now, take *one* sample from each distribution. Instead of drawing a random sample at each iteration, sample *with replacement* from the one sample. Produce a density plot of the $s_{n-1}^2$ and $s_{n}^2$. Do we get roughly the same information as we do in the full simulation? Try this over several seeds -- what do you notice? Ensure to set your randomization seed.
+
+**Solution**
+
+Took a sample from each distribution and sampled with replacedment x times using a for-loop. Stored results in a tibble and reshaped using `pivot_longer()` then plotted a density plot using `geom_density()` to visualise the results.
+
+```{r}
+#| size: scriptsize
+set.seed(7272) # randomization seed
+x <- 1000
+num <- 20
+
+# original samples for each distrib
+orig.norm<- rnorm(n = num, mean = 0, sd = sqrt(2))
+orig.pois<- rpois(n = num, lambda = 2)
+orig.expo<- rexp(n = num, rate = 1 / sqrt(2))
+orig.binom<- rbinom(n = num, size = 50, prob = (5 - sqrt(21)) / 10)
+
+# storage
+s.norm<- rep(NA, x)
+sn.norm<- rep(NA, x)
+s.pois<- rep(NA, x)
+sn.pois<- rep(NA, x)
+s.expo<- rep(NA, x)
+sn.expo<- rep(NA, x)
+s.binom<- rep(NA, x)
+sn.binom<- rep(NA, x)
+
+# loops to change samples x times
+for(i in 1:x){
+  # bootstrap samples
+  boot.norm<- sample(orig.norm, size = num, replace = TRUE)
+  boot.pois<- sample(orig.pois, size = num, replace = TRUE)
+  boot.expo<- sample(orig.expo, size = num, replace = TRUE)
+  boot.binom<- sample(orig.binom, size = num, replace = TRUE)
+
+  # store in variables
+  s.norm[i]<- var(boot.norm)
+  sn.norm[i]<- ((num-1)/num)*var(boot.norm)
+  s.pois[i]<- var(boot.pois)
+  sn.pois[i]<- ((num-1)/num)*var(boot.pois)
+  s.expo[i]<- var(boot.expo)
+  sn.expo[i]<- ((num-1)/num)*var(boot.expo)
+  s.binom[i]<- var(boot.binom)
+  sn.binom[i]<- ((num-1)/num)*var(boot.binom)
+}
+
+# store results in tibble
+boot.dat <- tibble(
+  s_norm = s.norm,
+  sn_norm = sn.norm,
+  s_pois = s.pois,
+  sn_pois = sn.pois,
+  s_expo = s.expo,
+  sn_expo = sn.expo,
+  s_binom = s.binom,
+  sn_binom = sn.binom
+)
+
+# reshape with pivot_longer & seperate into estimator and destrib
+boot.res <- boot.dat |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "variance",
+    values_to = "vals"
+  ) |>
+  separate(variance, into = c("Estimator", "Distribution"), sep = "_")
+
+# desity plot
+boot.density.plot <- ggplot(boot.res) +
+  geom_density(aes(x = vals, fill = Estimator), alpha = 0.4) +
+  geom_vline(xintercept = 2, linetype = "dashed") +
+  facet_wrap(~Distribution, scales = "free_x") +
+  labs(
+    x = "Variance Estimate",
+    y = "Density",
+    title = "Bootstrap Distributions of Variance Estimators"
+  ) +
+  theme_bw()
+
+(boot.density.plot)
+```
+
+# Executive Summary
+Summarize the work you've done here to provide a brief (200-300 word) summary of the simulation and the results using your work in Lab 11. Your summary should be professional, clear, and all claims should be corroborated with statistical support.
+
+**Solution**
+
+In this lab, I explored the differences between the variance estimators when using n and n-1​ using simulation across four distributions (Poisson, Binomial, Normal, and Exponential), each with a true variance of 2. By repeatedly sampling and computing both estimators, I compared their bias, variability, and accuracy through their means, variances, and mean squared errors (MSE).
+In the numerical summary table in section 2.1, for smaller sample sizes (n=20), variance S(n-1)​ consistently produced estimates closer to the true variance (values around 2), while S(n)​ tended to underestimate it which led to higher MSE values, showing less reliable performance in small samples. The boxplots and density plots visualisations supported this, showing that estimates from S(n-1) were more centered around the true value.
+As the sample size increased (n=50, 100, 500) both estimators improved and converged toward the true variance, with differences becoming less and less. Density plots also showed that the sampling distributions became more concentrated and kinda normal as n increased.
+Bootstrap simulations produced similar patterns, reinforcing the idea that variance with n-1 is more reliable, especially when working with smaller samples. The results support using variance S(n-1) as the preferred estimator due to its lower bias and more consistency.

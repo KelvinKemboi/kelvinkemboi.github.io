@@ -1,7 +1,32 @@
 ---
-title: "n"
+title: "Kelvin's Space"
 ---
 
-This is a Quarto website.
+# Welcome
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Hi, I’m **Kelvin** — welcome to my little corner of the internet.
+
+## What this site is
+
+This website is a place where I:
+
+- share a bit about myself  
+- document what I’m learning  
+- experiment with ideas and projects  
+
+## What I’m currently focused on
+
+Right now, I’m working on improving in:
+
+- Data Structures & Algorithms  
+- Statistics and Probability  
+- Backend development  
+- Machine Learning fundamentals  
+
+## What you’ll find here
+
+- An **About Me** page  
+- My interests and goals  
+- Future projects and experiments  
+
+Thanks for stopping by.
