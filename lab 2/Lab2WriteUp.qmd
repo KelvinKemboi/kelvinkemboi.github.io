@@ -78,19 +78,66 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ## Part a
 Install the `esquisse` package for `R`. Report the code below, ensuring to set the `eval` option to `false`, using "\#| eval: false", so that we don't install the package every time you compile your Quarto document.
 
+**Solution**
+
+Installed `esquisse()` package and set `eval` to `false` to prevent reinstalling it at every compilation.
+
+```{r}
+#| size: "scriptsize"
+#| eval: false
+install.packages("esquisse")
+```
+
+
 ## Part b
 Load the `esquisse` package for `R`. Report the code below. It does not matter whether you set "\#| eval: false" because loading the package does not add a lot of time. Note you will not evaluate any code that uses the `esquisse` package, so there is no need to load it as you compile your Quarto document.
+
+
+**Solution**
+
+Loaded the package using the `library()` method
+
+```{r}
+#| size: scriptsize
+library(esquisse)
+```
 
 ## Part c
 How can you ask for help about the  `esquisse` package for `R`? Report the code below, ensuring to set the `eval` option to `false`, using "\#| eval: false", so that the help document isn't loaded every time you compile your Quarto document.
 
+**Solution**
+
+Used the `help()` method to ask for help/info on the package and set `eval` to `false`
+```{r}
+#| size: "scriptsize"
+#| eval: false
+help(esquisse)
+```
+
+
 ## Part d
 Is a demo or vignette available for the  `esquisse` package for `R`? Report the code below, ensuring to set the `eval` option to `false`, using "\#| eval: false", so that the you don't get errors when you compile your Quarto document.
+
+**Solution**
+
+Used `browseVignettes()` method to confirm that `esquisse()` package has some vignettes (`get-started` and `shiny-usage`) and ran `demo(package="esquisse")` to confirm that the package has no demos.
+
+```{r}
+#| size: "scriptsize"
+#| eval: false
+demo("esquisse")
+browseVignettes("esquisse")
+```
+
 
 ## Part e
 Add the BibTeX citation for `esquisse` package for `R` to your `.bib` file and cite it in a sentence describing what the package does below. Note you can reference a citation named `esquisse` using "[@\hspace{-0em}esquisse]".
 <!-- Note the \hspace{-0em} above is for printing 
 the command instead of actually citing. -->
+
+**Solution**
+
+The `esquisse` package has drag-and-drop interface for mapping variables and creating ggplot2 figures without writing a lot of code [@esquisse].
 
 ## Part f
 Run `esquisser()` in your console -- not in a chunk of `R` code in your Quarto document. 
@@ -98,6 +145,12 @@ Run `esquisser()` in your console -- not in a chunk of `R` code in your Quarto d
 i. Select `palmerpenguins` from the "Select an environment in which to search:" dropdown. This should automatically select `penguins` in the "Select a data.frame:" dropdown. Click "Import Data".
 ii. Drag `body_mass_g` to the X box and `species` to the fill box. 
 iii. Describe what you see in words. What can you conclude about Adelie, Chinstrap, and Gentoo penguins based on the resulting plot? 
+
+**Solution**
+
+After using `esquisser()` with the `palmerpenguins` dataset, I plotted `body_mass_g` on the x-axis and filled by `species`. Based on the plot, Gentoo penguins are larger and heavier than the other two species. Adelie and Chinstrap penguins are more similar in body mass, though gentoo penguins are marginally heavier. 
+
+Body mass is strong characteristic that distinguishes Gentoo penguins from Adelie and Chinstrap penguins, while it's less effective at separating Adelie and Chinstrap penguins from each other.
 
 # Objects and Vectors
 Create the following vectors in `R`. In some cases, you may be able to use `seq()` or `rep()` while in others you cannot. Use these functions when possible, otherwise manually create the vector and explain why that was necessary.
@@ -153,11 +206,34 @@ where $F_0=0$ and $F_1=1$.
 
 Create a vector of the first 10 Fibonacci numbers.
 
+**Solution**
+
+Manually created a vector for 1st 10 fibonacci numbers. Both `seq()` and `rep()` cannot be used here since the numbers are neither sequential nor repeating.
+
+```{r}
+#| size: "scriptsize"
+(fib <- c(0, 1, 1, 2, 3, 5, 8, 13, 21, 34))
+```
+
 ## Part b
 Triangular Numbers are the cumulative sums of natural numbers:
 $$F_n = \frac{n(n+1)}{2}.$$
 
 Create a vector of the first 10 Triangular Numbers. 
+
+**Solution**
+
+Used the colon operator to find the sequence of numbers from 1 to 10, both inclusive, and used the formula
+ $$F_n = \frac{n(n+1)}{2}.$$ 
+ 
+ to find the 1st 10 triangular numbers
+
+```{r}
+#| size: "scriptsize"
+n<-1:10
+(nums<-n * (n+1)/2)
+```
+
 
 ## Part c
 Suppose I were designing a repeated meausres experiment with three treatment conditions. Each of $n=10$ participants (with `ID` 1 to 10) will receive *all* experimental conditions, call them "Control", "Treatment A", and "Treatment B". 
@@ -167,88 +243,43 @@ Consider setting up data entry for this experiment.
 i. Create a vector containing each `ID` repeated three times, once for each treatment.
 ii. Create a vector containing each `Treatment` repeated for each participant ID.
 
+**Solution**
+
+I used `rep()` for both ID and Treatment to repeat the given values the set number of times and used `factor()` for the treatment variables to show that they are categorical.
+```{r}
+#| size: "scriptsize"
+(ID<-rep(1:10, each=3)) # each id repeated 3 times
+
+(Treatment <- factor(
+  rep(c("Control", "Treatment A", "Treatment B"), times = 10) # each treatment repeated for IDs
+))
+
+```
+
 ## Part d
 Create a vector containing the `character` "MATH" and the `numeric` 240. What is the resulting class? Explain why in a sentence.
 
-# Solution:
-## Install package
-```{r}
-#| size: "scriptsize"
-#| eval: false
-install.packages("esquisse")
-```
+**Solution**
 
-## Load package
-```{r}
-#| size: "scriptsize"
-library(esquisse)
-```
+The resulting class is `character` because `R` convertes the values into the highest level type and since "MATH" is a `character` and is of a higher level than `numeric` 240, it results in class `character`.
 
-## Asking for help
-
-```{r}
-#| size: "scriptsize"
-#| eval: false
-help(esquisse)
-```
-
-## Checking for demo or vignette
-```{r}
-#| size: "scriptsize"
-#| eval: false
-demo("esquisse")
-vignette("esquisse")
-```
-
-## Citation
-The `esquisse` package has drag-and-drop interface for mapping variables and creating ggplot2 figures without writing a lot of code [@esquisse].
-
-## Observation and Conclusion
-After using `esquisser()` with the `palmerpenguins` dataset, I plotted `body_mass_g` on the x-axis and filled by `species`. Based on the plot, Gentoo penguins are larger and heavier than the other two species. Adelie and Chinstrap penguins are more similar in body mass, though Chinstrap penguins are marginally heavier. 
-
-Body mass is strong characteristic that distinguishes Gentoo penguins from Adelie and Chinstrap penguins, while it's less effective at separating Adelie and Chinstrap penguins from each other.
-
-## Fibonacci
-```{r}
-#| size: "scriptsize"
-(fib <- c(0, 1, 1, 2, 3, 5, 8, 13, 21, 34))
-```
-
-Manually created a vector for 1st 10 fibonacci numbers. Both `seq()` and `rep()` cannot be used here since the numbers are neither sequential nor repeating.
-
-## Triangular numbers
-1st 10 triangular numbers.
-```{r}
-#| size: "scriptsize"
-n<-1:10
-(nums<-n * (n+1)/2)
-```
-
-Used the colon operator to find the sequence of numbers from 1 to 10, both inclusive, and used the formula
- $$F_n = \frac{n(n+1)}{2}.$$ 
- 
- to find the 1st 10 triangular numbers
-
-## Measures experiment
-```{r}
-#| size: "scriptsize"
-(ID<-rep(1:10,times=3))
-```
-
-```{r}
-#| size: "scriptsize"
-(Treatment <- factor(
-  rep(c("Control", "Treatment A", "Treatment B"), times = 10)
-))
-```
-
-I used `rep()` for both ID and Treatment to repeat the given values the set number of times and used `factor()` for the treatment variables to show that they are categorical.
-
-## Resulting class
 ```{r}
 #| size: "scriptsize"
 v<-c("MATH",240)
 class(v)
 ```
 
-The resulting class is `character` because `R` convertes the values into the highest level type and since "MATH" is a `character` and is of a higher level than `numeric` 240, it results in class `character`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

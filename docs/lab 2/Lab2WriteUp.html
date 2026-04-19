@@ -256,19 +256,6 @@ window.Quarto = {
   <li><a href="#part-c-1" id="toc-part-c-1" class="nav-link" data-scroll-target="#part-c-1"><span class="header-section-number">2.3</span> Part c</a></li>
   <li><a href="#part-d-1" id="toc-part-d-1" class="nav-link" data-scroll-target="#part-d-1"><span class="header-section-number">2.4</span> Part d</a></li>
   </ul></li>
-  <li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution"><span class="header-section-number">3</span> Solution:</a>
-  <ul class="collapse">
-  <li><a href="#install-package" id="toc-install-package" class="nav-link" data-scroll-target="#install-package"><span class="header-section-number">3.1</span> Install package</a></li>
-  <li><a href="#load-package" id="toc-load-package" class="nav-link" data-scroll-target="#load-package"><span class="header-section-number">3.2</span> Load package</a></li>
-  <li><a href="#asking-for-help" id="toc-asking-for-help" class="nav-link" data-scroll-target="#asking-for-help"><span class="header-section-number">3.3</span> Asking for help</a></li>
-  <li><a href="#checking-for-demo-or-vignette" id="toc-checking-for-demo-or-vignette" class="nav-link" data-scroll-target="#checking-for-demo-or-vignette"><span class="header-section-number">3.4</span> Checking for demo or vignette</a></li>
-  <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation"><span class="header-section-number">3.5</span> Citation</a></li>
-  <li><a href="#observation-and-conclusion" id="toc-observation-and-conclusion" class="nav-link" data-scroll-target="#observation-and-conclusion"><span class="header-section-number">3.6</span> Observation and Conclusion</a></li>
-  <li><a href="#fibonacci" id="toc-fibonacci" class="nav-link" data-scroll-target="#fibonacci"><span class="header-section-number">3.7</span> Fibonacci</a></li>
-  <li><a href="#triangular-numbers" id="toc-triangular-numbers" class="nav-link" data-scroll-target="#triangular-numbers"><span class="header-section-number">3.8</span> Triangular numbers</a></li>
-  <li><a href="#measures-experiment" id="toc-measures-experiment" class="nav-link" data-scroll-target="#measures-experiment"><span class="header-section-number">3.9</span> Measures experiment</a></li>
-  <li><a href="#resulting-class" id="toc-resulting-class" class="nav-link" data-scroll-target="#resulting-class"><span class="header-section-number">3.10</span> Resulting class</a></li>
-  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab2WriteUp.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -305,23 +292,66 @@ window.Quarto = {
 <section id="part-a" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="part-a"><span class="header-section-number">1.1</span> Part a</h2>
 <p>Install the <code>esquisse</code> package for <code>R</code>. Report the code below, ensuring to set the <code>eval</code> option to <code>false</code>, using “#| eval: false”, so that we don’t install the package every time you compile your Quarto document.</p>
+<p><strong>Solution</strong></p>
+<p>Installed <code>esquisse()</code> package and set <code>eval</code> to <code>false</code> to prevent reinstalling it at every compilation.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"esquisse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p></p>
 </section>
 <section id="part-b" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="part-b"><span class="header-section-number">1.2</span> Part b</h2>
 <p>Load the <code>esquisse</code> package for <code>R</code>. Report the code below. It does not matter whether you set “#| eval: false” because loading the package does not add a lot of time. Note you will not evaluate any code that uses the <code>esquisse</code> package, so there is no need to load it as you compile your Quarto document.</p>
+<p><strong>Solution</strong></p>
+<p>Loaded the package using the <code>library()</code> method</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(esquisse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p></p>
 </section>
 <section id="part-c" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="part-c"><span class="header-section-number">1.3</span> Part c</h2>
 <p>How can you ask for help about the <code>esquisse</code> package for <code>R</code>? Report the code below, ensuring to set the <code>eval</code> option to <code>false</code>, using “#| eval: false”, so that the help document isn’t loaded every time you compile your Quarto document.</p>
+<p><strong>Solution</strong></p>
+<p>Used the <code>help()</code> method to ask for help/info on the package and set <code>eval</code> to <code>false</code></p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">help</span>(esquisse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p></p>
 </section>
 <section id="part-d" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="part-d"><span class="header-section-number">1.4</span> Part d</h2>
 <p>Is a demo or vignette available for the <code>esquisse</code> package for <code>R</code>? Report the code below, ensuring to set the <code>eval</code> option to <code>false</code>, using “#| eval: false”, so that the you don’t get errors when you compile your Quarto document.</p>
+<p><strong>Solution</strong></p>
+<p>Used <code>browseVignettes()</code> method to confirm that <code>esquisse()</code> package has some vignettes (<code>get-started</code> and <code>shiny-usage</code>) and ran <code>demo(package="esquisse")</code> to confirm that the package has no demos.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">demo</span>(<span class="st">"esquisse"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">browseVignettes</span>(<span class="st">"esquisse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p></p>
 </section>
 <section id="part-e" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="part-e"><span class="header-section-number">1.5</span> Part e</h2>
 <p>Add the BibTeX citation for <code>esquisse</code> package for <code>R</code> to your <code>.bib</code> file and cite it in a sentence describing what the package does below. Note you can reference a citation named <code>esquisse</code> using “[@esquisse]”. <!-- Note the \hspace{-0em} above is for printing 
 the command instead of actually citing. --></p>
+<p><strong>Solution</strong></p>
+<p>The <code>esquisse</code> package has drag-and-drop interface for mapping variables and creating ggplot2 figures without writing a lot of code <span class="citation" data-cites="esquisse">(<a href="#ref-esquisse" role="doc-biblioref">Meyer and Perrier 2025</a>)</span>.</p>
 </section>
 <section id="part-f" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="part-f"><span class="header-section-number">1.6</span> Part f</h2>
@@ -331,6 +361,9 @@ the command instead of actually citing. --></p>
 <li>Drag <code>body_mass_g</code> to the X box and <code>species</code> to the fill box.</li>
 <li>Describe what you see in words. What can you conclude about Adelie, Chinstrap, and Gentoo penguins based on the resulting plot?</li>
 </ol>
+<p><strong>Solution</strong></p>
+<p>After using <code>esquisser()</code> with the <code>palmerpenguins</code> dataset, I plotted <code>body_mass_g</code> on the x-axis and filled by <code>species</code>. Based on the plot, Gentoo penguins are larger and heavier than the other two species. Adelie and Chinstrap penguins are more similar in body mass, though gentoo penguins are marginally heavier.</p>
+<p>Body mass is strong characteristic that distinguishes Gentoo penguins from Adelie and Chinstrap penguins, while it’s less effective at separating Adelie and Chinstrap penguins from each other.</p>
 </section>
 </section>
 <section id="objects-and-vectors" class="level1" data-number="2">
@@ -340,11 +373,11 @@ the command instead of actually citing. --></p>
 <p>There are three ways we will create a vector. Most simply, we can create one from scratch. For example, I create a vector of odds, and evens less than 10 below.</p>
 <p></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>(odds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>(odds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 3 5 7 9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>(evens <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>(evens <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 4 6 8</code></pre>
 </div>
@@ -353,11 +386,11 @@ the command instead of actually citing. --></p>
 <p>There are also built-in functions like <code>seq(...)</code> for doing this:</p>
 <p></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>(odds <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">1</span>, <span class="at">to=</span><span class="dv">9</span>, <span class="at">by=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>(odds <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">1</span>, <span class="at">to=</span><span class="dv">9</span>, <span class="at">by=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 3 5 7 9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>(evens <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">2</span>, <span class="at">to=</span><span class="dv">8</span>, <span class="at">by=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>(evens <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">2</span>, <span class="at">to=</span><span class="dv">8</span>, <span class="at">by=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 4 6 8</code></pre>
 </div>
@@ -366,11 +399,11 @@ the command instead of actually citing. --></p>
 <p>We can also create repeating sequences by hand</p>
 <p></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>(repeating.seq1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>(repeating.seq1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 1 2 3 1 2 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>(repeating.seq2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>(repeating.seq2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 1 1 2 2 2 3 3 3</code></pre>
 </div>
@@ -378,11 +411,11 @@ the command instead of actually citing. --></p>
 <p> or using a built-in function <code>rep(...)</code></p>
 <p></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>(repeating.seq1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">times=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>(repeating.seq1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">times=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 1 2 3 1 2 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>(repeating.seq2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">each=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>(repeating.seq2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">each=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 1 1 2 2 2 3 3 3</code></pre>
 </div>
@@ -391,91 +424,15 @@ the command instead of actually citing. --></p>
 <p>There are some vectors for which we can’t use a <code>seq()</code> or <code>rep()</code>. For example, consider the prime numbers less than 10. The primes are not sequential (e.g., jump by a fixed amount), nor are they repeating.</p>
 <p></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>primes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>primes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p> <strong>Note</strong>: There is a <code>primes</code> package for <code>R</code> <span class="citation" data-cites="primes">(<a href="#ref-primes" role="doc-biblioref">Keyes and Egeler 2025</a>)</span> that contains a <code>generate_primes(min, max)</code> function for generating a vector of primes from <code>min</code> to <code>max</code>.</p>
 <section id="part-a-1" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="part-a-1"><span class="header-section-number">2.1</span> Part a</h2>
 <p>The Fibonacci Sequence is a recursive formula: <span class="math display">\[F_n = F_{n-1} + F_{n-2}\]</span> where <span class="math inline">\(F_0=0\)</span> and <span class="math inline">\(F_1=1\)</span>.</p>
 <p>Create a vector of the first 10 Fibonacci numbers.</p>
-</section>
-<section id="part-b-1" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="part-b-1"><span class="header-section-number">2.2</span> Part b</h2>
-<p>Triangular Numbers are the cumulative sums of natural numbers: <span class="math display">\[F_n = \frac{n(n+1)}{2}.\]</span></p>
-<p>Create a vector of the first 10 Triangular Numbers.</p>
-</section>
-<section id="part-c-1" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="part-c-1"><span class="header-section-number">2.3</span> Part c</h2>
-<p>Suppose I were designing a repeated meausres experiment with three treatment conditions. Each of <span class="math inline">\(n=10\)</span> participants (with <code>ID</code> 1 to 10) will receive <em>all</em> experimental conditions, call them “Control”, “Treatment A”, and “Treatment B”.</p>
-<p>Consider setting up data entry for this experiment.</p>
-<ol type="i">
-<li>Create a vector containing each <code>ID</code> repeated three times, once for each treatment.</li>
-<li>Create a vector containing each <code>Treatment</code> repeated for each participant ID.</li>
-</ol>
-</section>
-<section id="part-d-1" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="part-d-1"><span class="header-section-number">2.4</span> Part d</h2>
-<p>Create a vector containing the <code>character</code> “MATH” and the <code>numeric</code> 240. What is the resulting class? Explain why in a sentence.</p>
-</section>
-</section>
-<section id="solution" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Solution:</h1>
-<section id="install-package" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="install-package"><span class="header-section-number">3.1</span> Install package</h2>
-<p></p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">install.packages</span>(<span class="st">"esquisse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p></p>
-</section>
-<section id="load-package" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="load-package"><span class="header-section-number">3.2</span> Load package</h2>
-<p></p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">library</span>(esquisse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p></p>
-</section>
-<section id="asking-for-help" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="asking-for-help"><span class="header-section-number">3.3</span> Asking for help</h2>
-<p></p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">help</span>(esquisse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p></p>
-</section>
-<section id="checking-for-demo-or-vignette" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="checking-for-demo-or-vignette"><span class="header-section-number">3.4</span> Checking for demo or vignette</h2>
-<p></p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">demo</span>(<span class="st">"esquisse"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">vignette</span>(<span class="st">"esquisse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p></p>
-</section>
-<section id="citation" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="citation"><span class="header-section-number">3.5</span> Citation</h2>
-<p>The <code>esquisse</code> package has drag-and-drop interface for mapping variables and creating ggplot2 figures without writing a lot of code <span class="citation" data-cites="esquisse">(<a href="#ref-esquisse" role="doc-biblioref">Meyer and Perrier 2025</a>)</span>.</p>
-</section>
-<section id="observation-and-conclusion" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="observation-and-conclusion"><span class="header-section-number">3.6</span> Observation and Conclusion</h2>
-<p>After using <code>esquisser()</code> with the <code>palmerpenguins</code> dataset, I plotted <code>body_mass_g</code> on the x-axis and filled by <code>species</code>. Based on the plot, Gentoo penguins are larger and heavier than the other two species. Adelie and Chinstrap penguins are more similar in body mass, though Chinstrap penguins are marginally heavier.</p>
-<p>Body mass is strong characteristic that distinguishes Gentoo penguins from Adelie and Chinstrap penguins, while it’s less effective at separating Adelie and Chinstrap penguins from each other.</p>
-</section>
-<section id="fibonacci" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="fibonacci"><span class="header-section-number">3.7</span> Fibonacci</h2>
+<p><strong>Solution</strong></p>
+<p>Manually created a vector for 1st 10 fibonacci numbers. Both <code>seq()</code> and <code>rep()</code> cannot be used here since the numbers are neither sequential nor repeating.</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -487,11 +444,14 @@ the command instead of actually citing. --></p>
 </div>
 </div>
 <p></p>
-<p>Manually created a vector for 1st 10 fibonacci numbers. Both <code>seq()</code> and <code>rep()</code> cannot be used here since the numbers are neither sequential nor repeating.</p>
 </section>
-<section id="triangular-numbers" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="triangular-numbers"><span class="header-section-number">3.8</span> Triangular numbers</h2>
-<p>1st 10 triangular numbers.</p>
+<section id="part-b-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="part-b-1"><span class="header-section-number">2.2</span> Part b</h2>
+<p>Triangular Numbers are the cumulative sums of natural numbers: <span class="math display">\[F_n = \frac{n(n+1)}{2}.\]</span></p>
+<p>Create a vector of the first 10 Triangular Numbers.</p>
+<p><strong>Solution</strong></p>
+<p>Used the colon operator to find the sequence of numbers from 1 to 10, both inclusive, and used the formula <span class="math display">\[F_n = \frac{n(n+1)}{2}.\]</span></p>
+<p>to find the 1st 10 triangular numbers</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -504,29 +464,31 @@ the command instead of actually citing. --></p>
 </div>
 </div>
 <p></p>
-<p>Used the colon operator to find the sequence of numbers from 1 to 10, both inclusive, and used the formula <span class="math display">\[F_n = \frac{n(n+1)}{2}.\]</span></p>
-<p>to find the 1st 10 triangular numbers</p>
 </section>
-<section id="measures-experiment" class="level2" data-number="3.9">
-<h2 data-number="3.9" class="anchored" data-anchor-id="measures-experiment"><span class="header-section-number">3.9</span> Measures experiment</h2>
+<section id="part-c-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="part-c-1"><span class="header-section-number">2.3</span> Part c</h2>
+<p>Suppose I were designing a repeated meausres experiment with three treatment conditions. Each of <span class="math inline">\(n=10\)</span> participants (with <code>ID</code> 1 to 10) will receive <em>all</em> experimental conditions, call them “Control”, “Treatment A”, and “Treatment B”.</p>
+<p>Consider setting up data entry for this experiment.</p>
+<ol type="i">
+<li>Create a vector containing each <code>ID</code> repeated three times, once for each treatment.</li>
+<li>Create a vector containing each <code>Treatment</code> repeated for each participant ID.</li>
+</ol>
+<p><strong>Solution</strong></p>
+<p>I used <code>rep()</code> for both ID and Treatment to repeat the given values the set number of times and used <code>factor()</code> for the treatment variables to show that they are categorical.</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>(ID<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="at">times=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>(ID<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each=</span><span class="dv">3</span>)) <span class="co"># each id repeated 3 times</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  1  2  3  4  5  6  7  8  9 10  1  2  3  4  5  6  7  8  9 10  1  2  3  4  5
-[26]  6  7  8  9 10</code></pre>
+<pre><code> [1]  1  1  1  2  2  2  3  3  3  4  4  4  5  5  5  6  6  6  7  7  7  8  8  8  9
+[26]  9  9 10 10 10</code></pre>
 </div>
-</div>
-<p></p>
-<p></p>
-<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>(Treatment <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
-<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Treatment A"</span>, <span class="st">"Treatment B"</span>), <span class="at">times =</span> <span class="dv">10</span>)</span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Treatment A"</span>, <span class="st">"Treatment B"</span>), <span class="at">times =</span> <span class="dv">10</span>) <span class="co"># each treatment repeated for IDs</span></span>
 <span id="cb28-3"><a href="#cb28-3"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
@@ -539,10 +501,12 @@ Levels: Control Treatment A Treatment B</code></pre>
 </div>
 </div>
 <p></p>
-<p>I used <code>rep()</code> for both ID and Treatment to repeat the given values the set number of times and used <code>factor()</code> for the treatment variables to show that they are categorical.</p>
 </section>
-<section id="resulting-class" class="level2" data-number="3.10">
-<h2 data-number="3.10" class="anchored" data-anchor-id="resulting-class"><span class="header-section-number">3.10</span> Resulting class</h2>
+<section id="part-d-1" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="part-d-1"><span class="header-section-number">2.4</span> Part d</h2>
+<p>Create a vector containing the <code>character</code> “MATH” and the <code>numeric</code> 240. What is the resulting class? Explain why in a sentence.</p>
+<p><strong>Solution</strong></p>
+<p>The resulting class is <code>character</code> because <code>R</code> convertes the values into the highest level type and since “MATH” is a <code>character</code> and is of a higher level than <code>numeric</code> 240, it results in class <code>character</code>.</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -555,7 +519,6 @@ Levels: Control Treatment A Treatment B</code></pre>
 </div>
 </div>
 <p></p>
-<p>The resulting class is <code>character</code> because <code>R</code> convertes the values into the highest level type and since “MATH” is a <code>character</code> and is of a higher level than <code>numeric</code> 240, it results in class <code>character</code>.</p>
 
 
 
