@@ -119,21 +119,99 @@ Let's transform $\mathbf{M}$ to demonstrate an interesting linear algebra proper
 Create the matrix `A` in `R`.
 $$\mathbf{A} = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
 
+**Solution**
+
+Used `matrix()` method to create a matrix `A`
+```{r}
+#| size: scriptsize
+(A<- matrix(c(1,5,-7,9), 2,2))
+```
+
+
 ## Part b
 Compute the product below in `R` and store it in an object `T`.
 $$\mathbf{T} = \mathbf{A}\mathbf{M}.$$
 
+**Solution**
+
+Computed product of the matrix
+```{r}
+#| size: scriptsize
+M<- matrix(c(1,0,0,1), 2,2)
+(T<-A%*%M)
+```
+
+
 ## Part c
 Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second column of `T`) in `R`.
+
+**Solution**
+
+Created `basis.vector.1` and `basis.vector.2` to store first and second columns
+```{r}
+#| size: scriptsize
+basis.vector.1<-T[,1]
+basis.vector.2<-T[,2]
+```
+
 
 ## Part d
 Compute the points $p_0$, $p_1$, $p_2$, and $p_3$.
 
+**Solution**
+
+Computed the given points
+```{r}
+#| size: scriptsize
+(new_p0=c(0,0))
+(new_p1=basis.vector.1)
+(new_p2=basis.vector.1+basis.vector.2)
+(new_p3=basis.vector.2)
+```
+
+
 ## Part e
 Copy and paste the code for the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.
 
+**Solution**
+
+Used `ggplot` to draw the segments that form the boundary based on the points.
+```{r}
+#| label: fig-unitsquare2
+#| fig-cap: "Part 1 with A."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+n.p0 <- new_p0
+n.p1 <- new_p1
+n.p2 <- new_p2
+n.p3 <- new_p3
+
+## used ggplot to draw segments that form the boundary
+ggplot() +
+  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
+  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
+  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
+  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
+  theme_bw() +
+  #xlim(-0.5, 1.5) +
+  #ylim(-0.5, 1.5) +
+  labs(x = "x", y = "y")
+```
+
+
 ## Part f
 Interestingly, the determinant of $\mathbf{A}$ gives us the area of the shape plotted in Part e. Find the determinant of $\mathbf{A}$.
+
+**Solution**
+
+Used the method `determinant()` to find the determinant of the matrix which also gives us the area.
+```{r}
+#| size: scriptsize
+(determinant<-det(A))
+```
 
 # Question 2
 Recomplete Question 1 using a new matrix for $\mathbf{A}$. This matrix is not as well behaved.
@@ -142,23 +220,99 @@ Recomplete Question 1 using a new matrix for $\mathbf{A}$. This matrix is not as
 Create the matrix `A` in `R`.
 $$\mathbf{A} = \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}$$
 
+**Solution**
+
+Created another matrix A using `matrix()` method
+
+```{r}
+#| size: scriptsize
+(A<- matrix(c(1,2,2,4), 2,2))
+```
+
 ## Part b
 Compute the product below in `R` and store it in an object `T`.
 $$\mathbf{T} = \mathbf{A}\mathbf{M}.$$
 
+**Solution**
+
+Computed its product
+```{r}
+#| size: scriptsize
+(T<-A%*%M)
+```
+
 ## Part c
 Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second column of `T`) in `R`.
 
+**Solution**
+
+Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second column of `T`) in `R`.
+```{r}
+#| size: scriptsize
+basis.vector.1<-T[,1]
+basis.vector.2<-T[,2]
+```
+
+
 ## Part d
 Compute the points $p_0$, $p_1$, $p_2$, and $p_3$.
+
+**Solution**
+
+Computed given points
+```{r}
+#| size: scriptsize
+(new_p0=c(0,0))
+(new_p1=basis.vector.1)
+(new_p2=basis.vector.1+basis.vector.2)
+(new_p3=basis.vector.2)
+```
+
 
 ## Part e
 Copy and paste the code for plotting the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.
 
 **Note**: As you continue to plot this here and through question 2, you will find that the $x$ and $y$ limits need to change. Try `xlim(-15,15)` and `ylim(-5, 25)`.
 
+**Solution**
+
+Used `ggplot()` to draw the segments that form the boundary based on the points
+
+```{r}
+#| label: fig-unitsquare3
+#| fig-cap: "Part 2 with new A."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+n.p0 <- new_p0
+n.p1 <- new_p1
+n.p2 <- new_p2
+n.p3 <- new_p3
+ggplot() +
+  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
+  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
+  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
+  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
+  theme_bw() +
+  #xlim(-15, 15) +
+  #ylim(-5, 25) +
+  labs(x = "x", y = "y")
+```
+
+
 ## Part f
 Interestingly, the determinant of $\mathbf{A}$ gives us the area of the shape plotted in Part e. Find the determinant of $\mathbf{A}$.
+
+**Solution**
+
+Used `determinant()` method to find the deteminant
+```{r}
+#| size: scriptsize
+(determinant<-det(A))
+```
+
 
 # Question 3
 We can conduct a shear transformation that keeps the area of the shape the same but horizontally or vertically slants the object. 
@@ -176,15 +330,154 @@ Use the following to generate a new shape. Compare the shape and its area to you
 $$\mathbf{M}_v = \begin{bmatrix} 1 & k=0.5 \\ 0 & 1 \end{bmatrix} ~~~~~ \textrm{and} ~~~~~
   \mathbf{A}   = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
 
+**Solution**
+
+Generated a vertically cheared shape
+```{r}
+#| size: scriptsize
+M<- matrix(c(1,0,0.5,1), 2,2)
+A<- matrix(c(1,5,-7,9), 2,2)
+(T<-A%*%M)
+basis.vector.1<-T[,1]
+basis.vector.2<-T[,2]
+(new_p0=c(0,0))
+(new_p1=basis.vector.1)
+(new_p2=basis.vector.1+basis.vector.2)
+(new_p3=basis.vector.2)
+```
+
+Area
+```{r}
+#| size: scriptsize
+(determinant<-det(T))
+```
+
+Shape
+```{r}
+#| label: fig-unitsquare4
+#| fig-cap: "Vertical shearing."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+n.p0 <- new_p0
+n.p1 <- new_p1
+n.p2 <- new_p2
+n.p3 <- new_p3
+ggplot() +
+  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
+  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
+  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
+  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
+  theme_bw() +
+  #xlim(-15, 15) +
+  #ylim(-5, 25) +
+  labs(x = "x", y = "y")
+```
+
 ## Part b
 Use the following to generate a new shape. Compare the shape and its area to your answer in Questions 1 and the vertical shear transform in part (a).
 $$ \mathbf{M}_h = \begin{bmatrix} 1 & 0 \\ k=0.5 & 1 \end{bmatrix}~~~~~ \textrm{and} ~~~~~
   \mathbf{A}   = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
 
+**Solution**
+
+Created a horizontally sheared shape
+
+```{r}
+#| size: scriptsize
+M<- matrix(c(1,0.5,0, 1), 2,2)
+A<- matrix(c(1,5,-7,9), 2,2)
+(T<-A%*%M)
+basis.vector.1<-T[,1]
+basis.vector.2<-T[,2]
+(new_p0=c(0,0))
+(new_p1=basis.vector.1)
+(new_p2=basis.vector.1+basis.vector.2)
+(new_p3=basis.vector.2)
+```
+
+Area
+```{r}
+#| size: scriptsize
+(determinant<-det(T))
+```
+
+Shape
+```{r}
+#| label: fig-unitsquare5
+#| fig-cap: "Horizontal shearing."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+n.p0 <- new_p0
+n.p1 <- new_p1
+n.p2 <- new_p2
+n.p3 <- new_p3
+ggplot() +
+  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
+  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
+  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
+  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
+  theme_bw() +
+  #xlim(-15, 15) +
+  #ylim(-5, 25) +
+  labs(x = "x", y = "y")
+```
+
 ## Part c
 Can we shear vertically and horizontally at the same time? Use the following to generate a new shape. Compare the shape and its area to your answers in parts (a) and (b).
 $$\mathbf{M}_{vh} = \begin{bmatrix} 1 & k=0.5 \\ k=0.5 & 1 \end{bmatrix} ~~~~~ \textrm{and} ~~~~~
   \mathbf{A}   = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
+
+**Solution**
+
+Created a vertically and horizontally sheared shape
+```{r}
+#| size: scriptsize
+M<- matrix(c(1,0.5,0.5, 1), 2,2)
+A<- matrix(c(1,5,-7,9), 2,2)
+(T<-A%*%M)
+basis.vector.1<-T[,1]
+basis.vector.2<-T[,2]
+(new_p0=c(0,0))
+(new_p1=basis.vector.1)
+(new_p2=basis.vector.1+basis.vector.2)
+(new_p3=basis.vector.2)
+```
+
+Area
+```{r}
+#| size: scriptsize
+(determinant<-det(T))
+```
+
+Shape
+```{r}
+#| label: fig-unitsquare6
+#| fig-cap: "Vertical and horizontal shearing."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+n.p0 <- new_p0
+n.p1 <- new_p1
+n.p2 <- new_p2
+n.p3 <- new_p3
+ggplot() +
+  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
+  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
+  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
+  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
+  theme_bw() +
+  #xlim(-15, 15) +
+  #ylim(-5, 25) +
+  labs(x = "x", y = "y")
+```
 
 # Question 4
 
@@ -204,6 +497,19 @@ Create a data frame `ladder` with the following data. Note your data frame shoul
 | 0    | 6    |    5 | 1    | 16   |   10 |
 | 1    | 6    |    5 | 0    | 18   |   11 |
 | 0    | 8    |    6 | 1    | 18   |   11 |
+
+
+**Solution**
+
+Created dataframe `ladder` with the above specifications.
+
+```{r}
+#| size: scriptsize
+(group.dat<-rep(x=1:11, each=2))
+(x.dat<-c(c(0,0,1,1),rep(c(0,1), times=9)))
+(y.dat<-c(c(0,20,0,20),rep(seq(2,18, 2), each=2)))
+(ladder<-data.frame(x=x.dat, y=y.dat, group=group.dat))
+```
 
 ## Part b
 Remove `#|eval: false` in the code below. The result should look like a ladder and a very rectangular house if part a is correct.
@@ -233,6 +539,34 @@ ggplot() +
   ylim(-2,22)
 ```
 
+**Solution**
+
+Removed `eval: false` from the code to display the ladder and rectangular house
+
+```{r}
+#| label: fig-ladder1
+#| fig-cap: "A ladder."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+ggplot() +
+  geom_path(data = ladder, 
+              aes(x = x, y = y, group = group)) +
+                  geom_segment(aes(x = 10, xend = 10,
+                   y=0, yend = 20))+
+  geom_segment(aes(x = 10, xend = 20,
+                   y=20, yend = 20))+
+  geom_segment(aes(x = 20, xend = 20,
+                   y=0, yend = 20))+
+  geom_segment(aes(x = 10, xend = 20,
+                   y=0, yend = 0)) +
+  theme_bw() +
+  xlim(-2,22) +
+  ylim(-2,22)
+```
+
 ## Part c
 Use `as.matrix()` to create a $22 \times 2$ matrix $\mathbf{A}$ containing the `x` and `y` observations from the `ladder` data frame. Use matrix multiplication to compute
 $$\mathbf{T} = \mathbf{A} \mathbf{M}_h.$$
@@ -240,8 +574,28 @@ Recall,
 $$\mathbf{M}_h = \begin{bmatrix} 1 & 0 \\ k & 1 \end{bmatrix}$$
 and use $k=0.5.$
 
+**Solution**
+
+Created a $22 \times 2$ matrix and found the product.
+
+```{r}
+#| size: scriptsize
+(A<- as.matrix(ladder[,1:2]))
+M<-matrix(c(1,0.5,0.1),2,2)
+(T=A%*%M) # product
+```
+
 ## Part d
 Create a data frame `leaning.ladder` with the `x` and `y` equal to the first and second column of $\mathbf{T}$, respectively, and the same values of `group` from `ladder`. 
+
+**Solution**
+
+Created a new dataframe with `x` and `y` equal to first and second column of T.
+
+```{r}
+#| size: scriptsize
+(leaning.ladder<-data.frame(x=T[,1], y=T[,2], group=group.dat))
+```
 
 ## Part e
 Remove `eval: false` in the code below. The result should look like a ladder and a very rectangular house if part a is correct. The new leaning ladder should look like it is leaning on the house.
@@ -275,326 +629,8 @@ ggplot() +
 ```
 
 # Solution:
-## 1a
-Creating a matrix A
 
-```{r}
-#| size: scriptsize
-(A<- matrix(c(1,5,-7,9), 2,2))
-```
-
-## 1b
-Computing the product
-```{r}
-#| size: scriptsize
-M<- matrix(c(1,0,0,1), 2,2)
-(T<-A%*%M)
-```
-
-## 1c
-
-```{r}
-#| size: scriptsize
-basis.vector.1<-T[,1]
-basis.vector.2<-T[,2]
-```
-
-## 1d
-
-```{r}
-#| size: scriptsize
-(new_p0=c(0,0))
-(new_p1=basis.vector.1)
-(new_p2=basis.vector.1+basis.vector.2)
-(new_p3=basis.vector.2)
-```
-
-## 1e
-Unit square modification
-
-```{r}
-#| label: fig-unitsquare2
-#| fig-cap: "Part 1 with A."
-#| fig-width: 3
-#| fig-height: 3
-#| scale: "80%"
-#| fig-align: "center"
-#| size: "scriptsize"
-n.p0 <- new_p0
-n.p1 <- new_p1
-n.p2 <- new_p2
-n.p3 <- new_p3
-ggplot() +
-  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
-  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
-  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
-  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
-  theme_bw() +
-  #xlim(-0.5, 1.5) +
-  #ylim(-0.5, 1.5) +
-  labs(x = "x", y = "y")
-```
-
-## 1f
-
-```{r}
-#| size: scriptsize
-(determinant<-det(A))
-```
-
-## 2a
-Creating another matrix A
-
-```{r}
-#| size: scriptsize
-(A<- matrix(c(1,2,2,4), 2,2))
-```
-
-## 2b
-Computing the product
-```{r}
-#| size: scriptsize
-(T<-A%*%M)
-```
-
-## 2c
-
-```{r}
-#| size: scriptsize
-basis.vector.1<-T[,1]
-basis.vector.2<-T[,2]
-```
-
-## 2d
-
-```{r}
-#| size: scriptsize
-(new_p0=c(0,0))
-(new_p1=basis.vector.1)
-(new_p2=basis.vector.1+basis.vector.2)
-(new_p3=basis.vector.2)
-```
-
-## 2e
-Third unit square modification
-
-```{r}
-#| label: fig-unitsquare3
-#| fig-cap: "Part 2 with new A."
-#| fig-width: 3
-#| fig-height: 3
-#| scale: "80%"
-#| fig-align: "center"
-#| size: "scriptsize"
-n.p0 <- new_p0
-n.p1 <- new_p1
-n.p2 <- new_p2
-n.p3 <- new_p3
-ggplot() +
-  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
-  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
-  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
-  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
-  theme_bw() +
-  #xlim(-15, 15) +
-  #ylim(-5, 25) +
-  labs(x = "x", y = "y")
-```
-
-## 2f
-
-```{r}
-#| size: scriptsize
-(determinant<-det(A))
-```
-
-## 3a
-```{r}
-#| size: scriptsize
-M<- matrix(c(1,0,0.5,1), 2,2)
-A<- matrix(c(1,5,-7,9), 2,2)
-(T<-A%*%M)
-basis.vector.1<-T[,1]
-basis.vector.2<-T[,2]
-(new_p0=c(0,0))
-(new_p1=basis.vector.1)
-(new_p2=basis.vector.1+basis.vector.2)
-(new_p3=basis.vector.2)
-```
-
-Area
-```{r}
-#| size: scriptsize
-(determinant<-det(A))
-```
-
-Shape
-```{r}
-#| label: fig-unitsquare4
-#| fig-cap: "Vertical shearing."
-#| fig-width: 3
-#| fig-height: 3
-#| scale: "80%"
-#| fig-align: "center"
-#| size: "scriptsize"
-n.p0 <- new_p0
-n.p1 <- new_p1
-n.p2 <- new_p2
-n.p3 <- new_p3
-ggplot() +
-  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
-  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
-  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
-  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
-  theme_bw() +
-  #xlim(-15, 15) +
-  #ylim(-5, 25) +
-  labs(x = "x", y = "y")
-```
-
-## 3b
-```{r}
-#| size: scriptsize
-M<- matrix(c(1,0.5,0, 1), 2,2)
-A<- matrix(c(1,5,-7,9), 2,2)
-(T<-A%*%M)
-basis.vector.1<-T[,1]
-basis.vector.2<-T[,2]
-(new_p0=c(0,0))
-(new_p1=basis.vector.1)
-(new_p2=basis.vector.1+basis.vector.2)
-(new_p3=basis.vector.2)
-```
-
-Area
-```{r}
-#| size: scriptsize
-(determinant<-det(A))
-```
-
-Shape
-```{r}
-#| label: fig-unitsquare5
-#| fig-cap: "Horizontal shearing."
-#| fig-width: 3
-#| fig-height: 3
-#| scale: "80%"
-#| fig-align: "center"
-#| size: "scriptsize"
-n.p0 <- new_p0
-n.p1 <- new_p1
-n.p2 <- new_p2
-n.p3 <- new_p3
-ggplot() +
-  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
-  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
-  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
-  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
-  theme_bw() +
-  #xlim(-15, 15) +
-  #ylim(-5, 25) +
-  labs(x = "x", y = "y")
-```
-
-## 3c
-```{r}
-#| size: scriptsize
-M<- matrix(c(1,0.5,0.5, 1), 2,2)
-A<- matrix(c(1,5,-7,9), 2,2)
-(T<-A%*%M)
-basis.vector.1<-T[,1]
-basis.vector.2<-T[,2]
-(new_p0=c(0,0))
-(new_p1=basis.vector.1)
-(new_p2=basis.vector.1+basis.vector.2)
-(new_p3=basis.vector.2)
-```
-
-Area
-```{r}
-#| size: scriptsize
-(determinant<-det(A))
-```
-
-Shape
-```{r}
-#| label: fig-unitsquare6
-#| fig-cap: "Vertical and horizontal shearing."
-#| fig-width: 3
-#| fig-height: 3
-#| scale: "80%"
-#| fig-align: "center"
-#| size: "scriptsize"
-n.p0 <- new_p0
-n.p1 <- new_p1
-n.p2 <- new_p2
-n.p3 <- new_p3
-ggplot() +
-  geom_segment(aes(x = n.p0[1], y = n.p0[2], xend = n.p1[1], yend = n.p1[2])) +
-  geom_segment(aes(x = n.p1[1], y = n.p1[2], xend = n.p2[1], yend = n.p2[2])) +
-  geom_segment(aes(x = n.p2[1], y = n.p2[2], xend = n.p3[1], yend = n.p3[2])) +
-  geom_segment(aes(x = n.p3[1], y = n.p3[2], xend = n.p0[1], yend = n.p0[2])) +
-  theme_bw() +
-  #xlim(-15, 15) +
-  #ylim(-5, 25) +
-  labs(x = "x", y = "y")
-```
-
-## 4a
-
-```{r}
-#| size: scriptsize
-(group.dat<-rep(x=1:11, each=2))
-(x.dat<-c(c(0,0,1,1),rep(c(0,1), times=9)))
-(y.dat<-c(c(0,20,0,20),rep(seq(2,18, 2), each=2)))
-(ladder<-data.frame(x=x.dat, y=y.dat, group=group.dat))
-```
-
-## 4b
-
-```{r}
-#| label: fig-ladder1
-#| fig-cap: "A ladder."
-#| fig-width: 3
-#| fig-height: 3
-#| scale: "80%"
-#| fig-align: "center"
-#| size: "scriptsize"
-ggplot() +
-  geom_path(data = ladder, 
-              aes(x = x, y = y, group = group)) +
-                  geom_segment(aes(x = 10, xend = 10,
-                   y=0, yend = 20))+
-  geom_segment(aes(x = 10, xend = 20,
-                   y=20, yend = 20))+
-  geom_segment(aes(x = 20, xend = 20,
-                   y=0, yend = 20))+
-  geom_segment(aes(x = 10, xend = 20,
-                   y=0, yend = 0)) +
-  theme_bw() +
-  xlim(-2,22) +
-  ylim(-2,22)
-```
-
-## 4c
-
-Computing T=AM
-```{r}
-#| size: scriptsize
-(A<- as.matrix(ladder[,1:2]))
-M<-matrix(c(1,0.5,0.1),2,2)
-(T=A%*%M)
-```
-
-## 4d
-
-```{r}
-#| size: scriptsize
-(leaning.ladder<-data.frame(x=T[,1], y=T[,2], group=group.dat))
-```
-
-## 4e
-
+Removed `eval: false` from code to display figures.
 ```{r}
 #| label: fig-ladder3
 #| fig-cap: "A ladder and a leaning ladder."
