@@ -4,8 +4,10 @@ project:
 
 website:
   title: "portfolio"
-  navbar:
-    left:
+  sidebar:
+    style: "docked"
+    search: false
+    contents: 
       - href: index.qmd
         text: Home
       - lab 2/Lab2WriteUp.qmd
