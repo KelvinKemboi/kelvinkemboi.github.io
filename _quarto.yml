@@ -3,12 +3,11 @@ project:
   output-dir: docs
 
 website:
-  title: "n"
+  title: "portfolio"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
       - lab 2/Lab2WriteUp.qmd
       - lab 3/Lab3WriteUp.qmd
       - lab 4/Lab4WriteUp.qmd

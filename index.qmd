@@ -1,10 +1,24 @@
 ---
 title: "Kelvin's Space"
+about:
+  template: jolla
+  image: profile.jpeg
+  links:
+    - icon: bluesky
+      text: Bluesky
+      href: https://kemboikelvin-portfolio.vercel.app/
+    - icon: github
+      text: Github
+      href: https://github.com/KelvinKemboi/
 ---
 
 # Welcome
 
 Hi, I’m **Kelvin** — welcome to my little corner of the internet.
+
+I’m a student interested in **computer science & math**, currently studying at **Colgate University**.
+
+---
 
 ## What this site is
 
@@ -13,6 +27,8 @@ This website is a place where I:
 - share a bit about myself  
 - document what I’m learning  
 - experiment with ideas and projects  
+
+---
 
 ## What I’m currently focused on
 
@@ -23,10 +39,40 @@ Right now, I’m working on improving in:
 - Backend development  
 - Machine Learning fundamentals  
 
+---
+
+## My interests
+
+Some of the areas I’m most interested in are:
+
+- Software engineering  
+- Machine learning  
+- Statistics  
+
+---
+
+## My goals
+
+Some of my goals are to:
+
+- become a stronger programmer  
+- build meaningful projects  
+- improve my problem-solving skills  
+
+---
+
+## Outside of academics
+
+Outside of class, I enjoy running and playing piano. I’m also interested in building projects that connect with these interests.
+
+---
+
 ## What you’ll find here
 
 - An **About Me** page  
 - My interests and goals  
 - Future projects and experiments  
+
+---
 
 Thanks for stopping by.
