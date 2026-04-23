@@ -102,7 +102,14 @@ There are eight possible outcomes for Player A:
 
 Used `dbinom` to find the binomial probabilty distribution in which player A wins the three games and plotted both the CDF and PMF with `ggplot(...)`. Calculated the probability that A wins using the CDF `P(X>=2)=1-P(X<2)=1-P(X<=1)` and plotted the PMF and CDF.
 ```{r}
-#|size: scriptsize
+#| label: fig-box-binom
+#| fig-cap: "PMF and CDF plots for Binomial Distribution."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+
 
 # tibble with PMF & PDF valuesfor each x from 0:3
 gg.dat<-tibble(x= 0:3) |>
@@ -137,15 +144,23 @@ In intermediate courses, we learn the Negative Binomial distribution that we use
 **Specify the two cases necessary to compute the probability. Fully explain these probability statements in the context of a best two-out-of-three match and the Negative Binomial distribution. Finally, compute the probability that Player A wins the match and show you get the same result as the Binomial approach. Make sure write out your probability statement and work to write it in terms of the distribution function (PMF/CDF) to plot the probability using `ggplot`.**
 
 **Solution:**
-Found the number of times that player A loses the game before actually winning the match. Number of successes in this game is `(r=2)`. Finding the negative binom is `X=negativeBinom(r=2, p=0.70)`
+Found the number of times that player A loses the game before actually winning the match. Number of successes in this game is `(r=2)`. Finding the negative binom is `X ~ NegativeBinom(r=2, p=0.70)`
 
 ```{r}
-#|size: scriptsize
+#| label: fig-box-negative
+#| fig-cap: "PMF and CDF plots for Negative Distribution."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+
 gg.dat<-tibble(x= -1:10) |>
   mutate(PMF= dnbinom(x, size=3, prob = 0.70),
          CDF= pnbinom(x, size=3, prob=0.70))
 
 
+# PMF plot
 PMF.plot<-ggplot(data=gg.dat)+
   geom_linerange(aes(x=x, ymin=0, ymax=PMF))+
   geom_hline(yintercept=0)+
@@ -153,6 +168,7 @@ PMF.plot<-ggplot(data=gg.dat)+
   ylab("Probabiity")+
   xlab("Number of failures before 2nd win")
 
+# CDF plot
 CDF.plot<- ggplot(data=gg.dat) +
   geom_step(aes(x=x, y=CDF))+
   geom_point(aes(x=x, y=CDF))+
@@ -201,7 +217,13 @@ The primary benefit is that the Beta-Binomial enables us to specify some uncerta
 Plotted the PDF and CDF of the corresponding beta distribution. In the context of a best two-out-of-three match, it means the probability that Player A wins each leg is not assumed to be exactly 0.70 every time. The Beta distribution represents our uncertainty about Player A’s ability.
 
 ```{r}
-#|size: scriptsize
+#| label: fig-box-beta
+#| fig-cap: "PMF and CDF plots for Beta -Binom Distribution."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
 
 # aplha & beta values
 alpha=7
@@ -265,7 +287,13 @@ variance.val<-function(p){
 The probability of player A having a win probability of 0.70 is `P(X=0.70)= 0` because area under the PDF curve for a single point is 0 since it has no width.
 
 ```{r}
-#|size: scriptsize
+#| label: fig-box-prob
+#| fig-cap: "PMF and CDF plots for P (X=0.70)."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
 
 # continous (x) for PDF and CMF
 gg.dat<-tibble(x= seq(0, 1, length.out=1000)) |>
@@ -298,7 +326,13 @@ PDF.plot | CDF.plot
 The probability of player A having a win probability of at least 0.50 is `P(X>=0.50) = 1-P(X<0.50)= 1-P(X<=0.50)` which is same as `F(x)` in the CDF
 
 ```{r}
-#|size: scriptsize
+#| label: fig-box-p5
+#| fig-cap: "PMF and CDF plots for P(X>=50)."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
 
 # contious x for PDF and CDF in beta distrib
 gg.dat<-tibble(x= seq(0, 1, length.out=1000)) |>
@@ -336,6 +370,12 @@ PDF.plot | CDF.plot
 The 90th percentile of player A's win probability is `P(X=x)=0.90` and is found by using the inverse CDF function `qbeta(..)` and plootted the distribution by inversing the CDF plot
 
 ```{r}
+#| label: fig-box-perc
+#| fig-cap: "PMF and CDF plots for 90th Percentile."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
 #| size: scriptsize
 
 # created a tibble with two columns, PMF and CDF
@@ -350,7 +390,7 @@ inv<-qbeta(0.90, alpha, beta)
 # Plotted the inverse cdf to show value in 90th percentile
 inv.CDF.plot <- ggplot(data = gg.dat) +
   geom_line(aes(x = CDF, y = x)) +
-  geom_point(data = tibble(CDF = 0.90) |> mutate(x = qbeta(CDF, alpha, beta)), aes(x = CDF, y = x), color = "darkorchid2") +
+  geom_point(data = tibble(CDF = 0.90) |> mutate(x = qbeta(CDF, alpha, beta)), aes(x = CDF, y = 0.9), color = "darkorchid2") +
   theme_bw() +
   xlab("Cumulative Probability") +
   ylab("x")
@@ -367,7 +407,13 @@ inv.CDF.plot
 Finding `X-Beta-Binomial(n=3,alpha=7,beta=3)`. `P(X>=2)=1-P(X<2)=1-P(X<=1)` then finding the CDF and `P(X<=1)` and subtracting from 1. 
 
 ```{r}
-#|size: scriptsize
+#| label: fig-box-bin
+#| fig-cap: "PMF and CDF plots for Binom."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
 
 # created a tibble with two columns, PMF and CDF
 gg.dat<-tibble(x= -1:10) |>
