@@ -99,7 +99,7 @@ Describe the process -- do not leave out any steps -- for how you can load the d
 **Solution:**
 Installed packages `tidyverse` and `patchwork`
 Downloaded the souce data and moved the file to my working directory (in the lab folder)
-Made the `xlxs` file rectangular for effecient use in `R` by stacking data on top of each other.
+Made the `xlxs` file rectangular for effecient use in `R` by stacking duplicate columns.
 Converted it to a csv file to make it easier to read and work with. 
 Loaded the file using `.csv`
 
@@ -176,6 +176,7 @@ Used `mutate` to replace shorthand notations with the neat types.
 ```{r}
 #| size: scriptsize
 
+# replacing labels using mutate
 dat.kitsberg.cleaned <- dat.kitsberg.cleaned |>
   mutate(SampleType = if_else(SampleType=="primary", "Healthy Donor", "THP-1")) |>
   mutate(CellType = if_else(CellType=="mono", "Monocytes", "Macrophages")) |>
@@ -193,14 +194,15 @@ Combined my answers into one block of code for the next section
 ```{r}
 #| size: scriptsize
 
+# full cleaning code
 dat.kitsberg.cleaned<- biomed.dat |>
-  separate(col="sample", into=c("SampleType", "CellType", "Treatment"), sep="_") |>
-  filter(Treatment=="12hpi")|>
-  mutate(CellType = if_else(CellType=="MDM", "mac", CellType))|>
+  separate(col="sample", into=c("SampleType", "CellType", "Treatment"), sep="_") |> # seperate samples into different tupes
+  filter(Treatment=="12hpi")|> # filter by 12hpi
+  mutate(CellType = if_else(CellType=="MDM", "mac", CellType))|> 
   filter(CellType=="mono" | CellType=="mac")|>
-  mutate(SampleType = if_else(SampleType=="primary", "Healthy Donor", "THP-1")) |>
-  mutate(CellType = if_else(CellType=="mono", "Monocytes", "Macrophages")) |>
-  mutate(Treatment = if_else(Treatment=="12hpi", "12 Hours Post-Infection", "Uninfected"))
+  mutate(SampleType = if_else(SampleType=="primary", "Healthy Donor", "THP-1")) |> # remaming sample types
+  mutate(CellType = if_else(CellType=="mono", "Monocytes", "Macrophages")) |> # renaming cell types
+  mutate(Treatment = if_else(Treatment=="12hpi", "12 Hours Post-Infection", "Uninfected")) # renaming treatments
 
 head(dat.kitsberg.cleaned)
 ```
@@ -225,8 +227,8 @@ ggplot(data= dat.kitsberg.cleaned) +
   facet_wrap(~SampleType) + 
   labs(
     x= "Cell Types",
-    title= "Fig 3b: HCMV genomes detected in the nucleus and cytoplasm of infected monocytes compared to macrophages.",
-    y = "Viral genomes detected in nucleus",
+    caption= "Fig 3b: HCMV genomes detected in the nucleus and cytoplasm of infected monocytes compared to macrophages.",
+    y = "Viral genomes detected in nucleus"
   )
 ```
 
@@ -243,11 +245,13 @@ Used `group_by(...)` and `summarize(...)` to create a summary of the relevant nu
 
 ```{r}
 #| size: scriptsize
+
+# numerical summary for the data grouped by cell type
 dat.kitsberg.summary <- dat.kitsberg.cleaned |>
-  group_by(SampleType) |>
+  group_by(CellType) |> # get celltype summaries
   summarize(
-    n = n(),
-    Missing = sum(is.na(viruses.within.nucleus)),
+    n = n(), # number
+    Missing = sum(is.na(viruses.within.nucleus)), # missing values
     Mean = mean(viruses.within.nucleus, na.rm = T),
     SD = sd(viruses.within.nucleus, na.rm = T),
     Median = median(viruses.within.nucleus, na.rm = T),
@@ -263,7 +267,7 @@ print the table nicely is hidden by setting `echo: false` in the header
 #| tbl-align: "center"
 #| echo: false
 dat.kitsberg.summary |>
-  knitr::kable(digits = 2)
+  knitr::kable(digits = 2) # display in a nice table
 ```
 
 # Ship Valuation
@@ -303,7 +307,7 @@ Used the `mutate(...)` function to create a new column `price` containing ship p
 ```{r}
 #| size: scriptsize
 dat.bal.cleaned<-ship.data |>
-  mutate(Price= (10^SPLog)/1000000)
+  mutate(Price= (10^SPLog)/1000000) # add price column
 ```
 
 ### Part C
@@ -318,6 +322,7 @@ Used `case_when` and `mutate(...)` functions to find the the origin countries ma
 ```{r}
 #| size: scriptsize
 
+# new origincountry column with renamed countries
 dat.bal.cleaned <- dat.bal.cleaned |>
   mutate(OriginCountry= case_when(
     Japan==1 ~ "Japan",
@@ -342,6 +347,7 @@ Used `mutate(...)` and `case_when(...)` to create a new column `Manufacturer` co
 ```{r}
 #| size: scriptsize
 
+# new manufacturer column with renamed manufaturer labels
 dat.bal.cleaned <- dat.bal.cleaned |>
   mutate(Manufacturer= case_when(
     Caterpillar==1 ~ "Caterpillar",
@@ -366,6 +372,7 @@ Used `mutate(...)` and `case_when(...)` to create a new column `PI.club` contain
 ```{r}
 #| size: scriptsize
 
+# new PIclub column with renamed labels
 dat.bal.cleaned <- dat.bal.cleaned |>
   mutate(PI.club= case_when(
     Japan.P.I.Club==1 ~ "Japan P.I Club",
@@ -395,6 +402,7 @@ Used `mutate(...)` and `case_when(...)` to create a new column `Class` containin
 ```{r}
 #| size: scriptsize
 
+# new class column with renamed class labels
 dat.bal.cleaned <- dat.bal.cleaned |>
   mutate(Class= case_when(
     Nippon.Kaiji.Kyokai..IACS.==1 ~ "Nippon Kaiji Kyokai (IACS)",
@@ -423,6 +431,7 @@ Used `mutate(...)` and `case_when(...)` to create a new column `FlagState` conta
 ```{r}
 #| size: scriptsize
 
+# new flagstate columns with renamed flagstate labels
 dat.bal.cleaned <- dat.bal.cleaned |>
   mutate(FlagState= case_when(
     Panama==1 ~ "Panama",
@@ -450,9 +459,10 @@ Combined my answers into one block of code for the next section
 #| size: scriptsize
 ship.data<-read.csv("ShipValuation-Bal25.csv")
 
+# combined cleaning code
 dat.bal.cleaned<-ship.data |>
-  mutate(Price= (10^SPLog)/1000000) |>
-  mutate(OriginCountry= case_when(
+  mutate(Price= (10^SPLog)/1000000) |> # price
+  mutate(OriginCountry= case_when( # origincountry column
     Japan==1 ~ "Japan",
     China..People.s.Republic.Of ==1 ~ "China",
     Philippines ==1 ~ "Philippines",
@@ -460,14 +470,14 @@ dat.bal.cleaned<-ship.data |>
     Others.Country.Build ==1 ~ "Other",
     TRUE ~ NA
   )) |>
-  mutate(Manufacturer= case_when(
+  mutate(Manufacturer= case_when( # manufacturer column
     Caterpillar==1 ~ "Caterpillar",
     MAN.B.W ==1 ~ "MAN.B.W",
     Wartsila ==1 ~ "Wartsila",
     Mitsubishi == 1 ~ "Mitsubishi",
     TRUE ~ NA
   )) |>
-  mutate(PI.club= case_when(
+  mutate(PI.club= case_when( # PIClub column
     Japan.P.I.Club==1 ~ "Japan P.I Club",
     Gard ==1 ~ "Gard",
     West.of.England ==1 ~ "West of England",
@@ -480,7 +490,7 @@ dat.bal.cleaned<-ship.data |>
     Unknown == 1 ~ "Unknown",    
     TRUE ~ NA
   )) |>
-  mutate(Class= case_when(
+  mutate(Class= case_when( # class column
     Nippon.Kaiji.Kyokai..IACS.==1 ~ "Nippon Kaiji Kyokai (IACS)",
     Lloyd.s.Register ==1 ~ "Lloyd's Register",
     Bureau.Veritas..IACS. ==1 ~ "Bureau Veritas (IACS)",
@@ -491,7 +501,7 @@ dat.bal.cleaned<-ship.data |>
     Disclassed ==1 ~ "Disclassed",
     TRUE ~ NA
   )) |>
-  mutate(FlagState= case_when(
+  mutate(FlagState= case_when( # flagstate column
     Panama==1 ~ "Panama",
     Marshall.Islands ==1 ~ "Marshall Islands",
     Liberia ==1 ~ "Liberia",
@@ -503,7 +513,6 @@ dat.bal.cleaned<-ship.data |>
     TRUE ~ NA
   ))
 
-  head(ship.data)
 ```
 
 ## Data Summaries
@@ -535,6 +544,10 @@ Used the function `geom_violin` of `ggplot` to plot a violin graph visualisation
 
 ```{r}
 #| size: scriptsize
+dat.bal.cleaned<- dat.bal.cleaned |>
+  drop_na()
+
+
 ggplot(data= dat.bal.cleaned) +
   geom_violin(aes(x= OriginCountry, y= Price), width = 1) +
   geom_boxplot(aes(x= OriginCountry,y= Price),width=0.3) +
@@ -553,9 +566,9 @@ Used `group_by(...)` and `summarize(...)` to create a summary of the relevant nu
 dat.bal.summary <- dat.bal.cleaned |>
   group_by(OriginCountry) |>
   summarize(
-    n = n(),
-    Proportion = n / sum(n)
-  )
+    n = n()
+  ) |>
+  mutate(proportion= n/sum(n))
 ```
 
 Used the `knitr::kable(...)` function and adding `#| echo: false` to
