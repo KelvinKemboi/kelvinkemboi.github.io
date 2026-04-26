@@ -3,18 +3,158 @@ title: "Point Estimation Study"
 ---
 
 # What is a Point Estimate?
-- A point etimate is a single value that can be used to make an inference on a population. If we have millions in a population and would like to get a particular parameter like mean, we would find that difficult which is why we use a single value to estimate what the population parameter would look like
 
-**Point Estimation**: is the process of obtaining this single value
+A **point estimate** is a single number that used to estimate an unknown value in a population. Usually, since populations are often very large, it is usually impossible (or extremely difficult) to collect data from every single individual. Because of this, we take a **sample** and use it to make a reasonable guess about the population.
 
-## What makes a good Point Estimate?
+For example, if we want to know the average height of all students at a university, we wouldn’t measure everyone. Instead, we would measure a smaller group and use their average as an estimate of the true population average.
 
-- It should be unbiased
-- It should be precise
-- It should be accurate
+**Point estimation** is the process of using sample data to produce this single estimate.
 
-**How would you define the terms `precision`, `accuracy`, and `biasness`?**
+---
 
-`Precision` determines how less spread the other values are. For an estimate to be good, other estimates obtained from the experiment should be close to it. Precision is inversely proportional to spread/ variance and can be shown in the formula.
+# What Makes a Good Point Estimate?
 
-`Precision~ 1
+Not all estimates are equally good. A strong estimator should have three key properties:
+
+- It should be **unbiased**
+- It should be **precise**
+- It should be **accurate**
+
+These ideas describe different aspects of an estimator’s performance.
+
+**What do they mean??**
+
+## Precision
+
+Precision refers to how consistent an estimator is when we repeat the same experiment multiple times.
+
+Imagine taking many different samples from the same population and calculating an estimate each time. If all those estimates are very close to each other, then the estimator is **precise**.
+
+So:
+- High precision - estimates are tightly grouped together  
+- Low precision - estimates are spread out  
+
+Precision is about **variability**. The `less variation` there is between estimates, the `more precise` the estimator is.
+
+---
+
+## Bias
+
+Bias tells us whether our estimator is systematically `off from the true value.`
+
+If we repeatedly take samples and the average of all our estimates is equal to the true population value, then the estimator is **unbiased**.  
+
+If the estimates tend to be consistently too high or too low, then the estimator is **biased**.
+
+So:
+- Unbiased - correct on average  
+- Biased - consistently off in some direction 
+
+Bias is about **correctness on average**, not just one sample.
+
+---
+
+## Accuracy
+
+Accuracy combines both precision and bias.
+
+An estimator is accurate if:
+- It is close to the true value (low bias), and  
+- It doesn’t vary too much (high precision)
+
+This is `important` because:
+- You can have an unbiased estimator that is very spread out (not reliable)
+- You can also have a very precise estimator that is consistently wrong (biased)
+
+A good estimator balances both.
+
+---
+
+# Methods of Finding Point Estimates
+
+There are two main methods we studied for finding point estimates:
+
+- Method of Moments (MOM)  
+- Maximum Likelihood Estimation (MLE)  
+
+Both methods use the same data but approach the problem in different ways.
+
+---
+
+## Method of Moments (MOM)
+
+This approach says to equate the first k sample moments to the first k population moments and solve for unknown parameters.
+
+**Steps:**
+- Determine how many parameters we need to solve for.
+- Calculate summary values from our sample data (like the average or average of squared values)
+- Match these to what the distribution says those values should be (sample moments=population moments)
+- Then we solve for the unknown parameters
+
+The idea behind this method comes from the fact that, with enough data, sample averages tend to get close to the true population values.
+
+MOM is often `easier to understand and compute`, but it doesn’t always give the best estimates.
+
+---
+
+## Maximum Likelihood Estimation (MLE)
+
+MLE takes a different approach. Instead of matching summaries, it asks:
+
+**Which parameter value makes the data observed most likely to happen?**
+
+We imagine different possible values for the parameter and choose the value that best explains the data.
+
+**Steps to computationally do it in R:** 
+- Write out the likelihood function.
+- Take the log-likelihood
+- Create a function that returns the negative log-likelihood
+- Handle parameter constraints by tranforming them
+- Choose starting values
+- Use the optimizing function `optim()` to find the parameter values that minimise it.
+- Transform paramters back
+- Check the solution
+
+MLE can sometimes be more complicated to compute.
+
+---
+
+# Comparing Estimators
+
+Since different methods can give different answers, an important question is:
+
+**Which estimator is better?**
+
+To answer this, we compare estimators using:
+
+- Bias (how correct it is on average)  
+- Variance (how spread out it is)  
+- Accuracy (combining both ideas)  
+
+
+However, there can be tradeoff between bias and variability: An estimator that is perfectly unbiased might still be a bad choice if it varies too much from sample to sample.
+
+---
+
+# Key Insight from Practice
+
+When working through examples and simulations, you can infer that:
+
+- Some estimators are **less variable but slightly biased**
+- Others are **unbiased but highly variable**
+
+This means that the “best” estimator is not always obvious. Instead, we have to think about what matters more in a given situation:
+- Do you want...consistency? correctness on average? or the best overall performance?
+
+This is why it is important to evaluate estimators from `multiple angles`.
+
+---
+
+# Conclusion
+
+In this study, I:
+
+- Explained what point estimation is and why it is important  
+- Defined precision, bias, and accuracy 
+- Compared two major estimation methods (MOM and MLE)  
+- Discussed how to evaluate and compare estimators  
