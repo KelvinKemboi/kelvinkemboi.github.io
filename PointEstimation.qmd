@@ -63,7 +63,9 @@ An estimator is accurate if:
 - It doesn’t vary too much (high precision)
 
 This is `important` because:
+
 - You can have an unbiased estimator that is very spread out (not reliable)
+
 - You can also have a very precise estimator that is consistently wrong (biased)
 
 A good estimator balances both.
@@ -86,10 +88,11 @@ Both methods use the same data but approach the problem in different ways.
 This approach says to equate the first k sample moments to the first k population moments and solve for unknown parameters.
 
 **Steps:**
-- Determine how many parameters we need to solve for.
-- Calculate summary values from our sample data (like the average or average of squared values)
-- Match these to what the distribution says those values should be (sample moments=population moments)
-- Then we solve for the unknown parameters
+
+1. Determine how many parameters we need to solve for.
+2. Calculate summary values from our sample data (like the average or average of squared values)
+3. Match these to what the distribution says those values should be (sample moments=population moments)
+4. Then we solve for the unknown parameters
 
 The idea behind this method comes from the fact that, with enough data, sample averages tend to get close to the true population values.
 
@@ -106,14 +109,15 @@ MLE takes a different approach. Instead of matching summaries, it asks:
 We imagine different possible values for the parameter and choose the value that best explains the data.
 
 **Steps to computationally do it in R:** 
-- Write out the likelihood function.
-- Take the log-likelihood
-- Create a function that returns the negative log-likelihood
-- Handle parameter constraints by tranforming them
-- Choose starting values
-- Use the optimizing function `optim()` to find the parameter values that minimise it.
-- Transform paramters back
-- Check the solution
+
+1. Write out the likelihood function  
+2. Take the log-likelihood  
+3. Create a function that returns the negative log-likelihood  
+4. Handle parameter constraints by transforming them  
+5. Choose starting values  
+6. Use the optimizing function `optim()` to find the parameter values that minimize it  
+7. Transform parameters back  
+8. Check the solution  
 
 MLE can sometimes be more complicated to compute.
 

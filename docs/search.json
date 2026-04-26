@@ -1054,7 +1054,7 @@
     "href": "PointEstimation.html#accuracy",
     "title": "Point Estimation Study",
     "section": "Accuracy",
-    "text": "Accuracy\nAccuracy combines both precision and bias.\nAn estimator is accurate if: - It is close to the true value (low bias), and\n- It doesn’t vary too much (high precision)\nThis is important because: - You can have an unbiased estimator that is very spread out (not reliable) - You can also have a very precise estimator that is consistently wrong (biased)\nA good estimator balances both.",
+    "text": "Accuracy\nAccuracy combines both precision and bias.\nAn estimator is accurate if: - It is close to the true value (low bias), and\n- It doesn’t vary too much (high precision)\nThis is important because:\n\nYou can have an unbiased estimator that is very spread out (not reliable)\nYou can also have a very precise estimator that is consistently wrong (biased)\n\nA good estimator balances both.",
     "crumbs": [
       "Point Estimation Study"
     ]
@@ -1064,7 +1064,7 @@
     "href": "PointEstimation.html#method-of-moments-mom",
     "title": "Point Estimation Study",
     "section": "Method of Moments (MOM)",
-    "text": "Method of Moments (MOM)\nThis approach says to equate the first k sample moments to the first k population moments and solve for unknown parameters.\nSteps: - Determine how many parameters we need to solve for. - Calculate summary values from our sample data (like the average or average of squared values) - Match these to what the distribution says those values should be (sample moments=population moments) - Then we solve for the unknown parameters\nThe idea behind this method comes from the fact that, with enough data, sample averages tend to get close to the true population values.\nMOM is often easier to understand and compute, but it doesn’t always give the best estimates.",
+    "text": "Method of Moments (MOM)\nThis approach says to equate the first k sample moments to the first k population moments and solve for unknown parameters.\nSteps: 1. Determine how many parameters we need to solve for. 2. Calculate summary values from our sample data (like the average or average of squared values) 3. Match these to what the distribution says those values should be (sample moments=population moments) 4. Then we solve for the unknown parameters\nThe idea behind this method comes from the fact that, with enough data, sample averages tend to get close to the true population values.\nMOM is often easier to understand and compute, but it doesn’t always give the best estimates.",
     "crumbs": [
       "Point Estimation Study"
     ]
@@ -1074,7 +1074,17 @@
     "href": "PointEstimation.html#maximum-likelihood-estimation-mle",
     "title": "Point Estimation Study",
     "section": "Maximum Likelihood Estimation (MLE)",
-    "text": "Maximum Likelihood Estimation (MLE)\nMLE takes a different approach. Instead of matching summaries, it asks:\nWhich parameter value makes the data observed most likely to happen?\nWe imagine different possible values for the parameter and choose the value that best explains the data.\nSteps to computationally do it in R: - Write out the likelihood function. - Take the log-likelihood - Create a function that returns the negative log-likelihood - Handle parameter constraints by tranforming them - Choose starting values - Use the optimizing function optim() to find the parameter values that minimise it. - Transform paramters back - Check the solution\nMLE can sometimes be more complicated to compute.",
+    "text": "Maximum Likelihood Estimation (MLE)\nMLE takes a different approach. Instead of matching summaries, it asks:\nWhich parameter value makes the data observed most likely to happen?\nWe imagine different possible values for the parameter and choose the value that best explains the data.\nSteps to computationally do it in R:\n\nWrite out the likelihood function\n\nTake the log-likelihood\n\nCreate a function that returns the negative log-likelihood\n\nHandle parameter constraints by transforming them\n\nChoose starting values\n\nUse the optimizing function optim() to find the parameter values that minimize it\n\nTransform parameters back\n\nCheck the solution\n\nMLE can sometimes be more complicated to compute.",
+    "crumbs": [
+      "Point Estimation Study"
+    ]
+  },
+  {
+    "objectID": "PointEstimation.html#steps-to-computationally-do-it-in-r",
+    "href": "PointEstimation.html#steps-to-computationally-do-it-in-r",
+    "title": "Point Estimation Study",
+    "section": "Steps to computationally do it in R:",
+    "text": "Steps to computationally do it in R:\n\nWrite out the likelihood function\n\nTake the log-likelihood\n\nCreate a function that returns the negative log-likelihood\n\nHandle parameter constraints by transforming them\n\nChoose starting values\n\nUse the optimizing function optim() to find the parameter values that minimize it\n\nTransform parameters back\n\nCheck the solution\n\nMLE can sometimes be more complicated to compute.",
     "crumbs": [
       "Point Estimation Study"
     ]
