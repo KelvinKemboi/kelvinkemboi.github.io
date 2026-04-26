@@ -10,6 +10,7 @@ website:
     contents: 
       - href: index.qmd
         text: Home
+      - PointEstimation.qmd
       - lab 2/Lab2WriteUp.qmd
       - lab 3/Lab3WriteUp.qmd
       - lab 4/Lab4WriteUp.qmd
