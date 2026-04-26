@@ -1064,7 +1064,7 @@
     "href": "PointEstimation.html#method-of-moments-mom",
     "title": "Point Estimation Study",
     "section": "Method of Moments (MOM)",
-    "text": "Method of Moments (MOM)\nThis approach says to equate the first k sample moments to the first k population moments and solve for unknown parameters.\nSteps: 1. Determine how many parameters we need to solve for. 2. Calculate summary values from our sample data (like the average or average of squared values) 3. Match these to what the distribution says those values should be (sample moments=population moments) 4. Then we solve for the unknown parameters\nThe idea behind this method comes from the fact that, with enough data, sample averages tend to get close to the true population values.\nMOM is often easier to understand and compute, but it doesn’t always give the best estimates.",
+    "text": "Method of Moments (MOM)\nThis approach says to equate the first k sample moments to the first k population moments and solve for unknown parameters.\nSteps:\n\nDetermine how many parameters we need to solve for.\nCalculate summary values from our sample data (like the average or average of squared values)\nMatch these to what the distribution says those values should be (sample moments=population moments)\nThen we solve for the unknown parameters\n\nThe idea behind this method comes from the fact that, with enough data, sample averages tend to get close to the true population values.\nMOM is often easier to understand and compute, but it doesn’t always give the best estimates.",
     "crumbs": [
       "Point Estimation Study"
     ]
