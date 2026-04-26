@@ -1,0 +1,20 @@
+---
+title: "Point Estimation Study"
+---
+
+# What is a Point Estimate?
+- A point etimate is a single value that can be used to make an inference on a population. If we have millions in a population and would like to get a particular parameter like mean, we would find that difficult which is why we use a single value to estimate what the population parameter would look like
+
+**Point Estimation**: is the process of obtaining this single value
+
+## What makes a good Point Estimate?
+
+- It should be unbiased
+- It should be precise
+- It should be accurate
+
+**How would you define the terms `precision`, `accuracy`, and `biasness`?**
+
+`Precision` determines how less spread the other values are. For an estimate to be good, other estimates obtained from the experiment should be close to it. Precision is inversely proportional to spread/ variance and can be shown in the formula.
+
+`Precision~ 1

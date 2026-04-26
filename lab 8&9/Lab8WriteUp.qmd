@@ -390,7 +390,7 @@ inv<-qbeta(0.90, alpha, beta)
 # Plotted the inverse cdf to show value in 90th percentile
 inv.CDF.plot <- ggplot(data = gg.dat) +
   geom_line(aes(x = CDF, y = x)) +
-  geom_point(data = tibble(CDF = 0.90) |> mutate(x = qbeta(CDF, alpha, beta)), aes(x = CDF, y = 0.9), color = "darkorchid2") +
+  geom_point(data = tibble(CDF = 0.90, x = inv), aes(x = CDF, y = x), color = "darkorchid2") +
   theme_bw() +
   xlab("Cumulative Probability") +
   ylab("x")
@@ -496,11 +496,10 @@ Creating a function `daltbinom()` with arguments `x`, `size` for number of obser
 #|size: scriptsize
 
 # daltbinom function for computing the PMF given the formula and argument values
-daltbinom<-function(x, size, p, t){
-    i=0:size # for summation from vals 0 to size
-    res = sum(p^(i) * (1-p)^(size-(i)) * t^((i)*(size-(i)))) # summation for the formula (c)
-    ifelse(x >= 0 & x<= size, ##condition
-    (p^x * (1-p)^(size-x) * t^(x*(size-x))) / res, 0) # only calculate (formula/c) if x is between 0(inclusive) and size(inclusive)
+daltbinom <- function(x, size, p, t){
+  i<- 0:size
+  c<- sum(choose(size, i)*p^i*(1-p)^(size-i)*t^(i*(size-i))) # summation for formula
+  ifelse(x >=0 & x<=size, choose(size, x)*p^x*(1-p)^(size-x)*t^(x*(size-x))/c, 0)
 }
 
 # created variables with PMF values with different theta values
@@ -608,30 +607,54 @@ Finding `P(X>=2)=P(X<2)=1−P(X<=1)`. Used the CDF at `P(x<=1)` and subtracted i
 #|size: scriptsize
 
 # created a tibble with two columns, PMF and CDF
-gg.data<-tibble(x= -1:10) |>
-  mutate(PMF= daltbinom(x, size=3, 0.70, 0.5),
-         CDF= paltbinom(x, size=3, 0.70, 0.5))
+# for 0.5
+gg.data1 <- tibble(x = 0:3) |>
+  mutate(
+    PMF = daltbinom(x, size = 3, 0.70, 0.5),
+    CDF = paltbinom(x, size = 3, 0.70, 0.5)
+  )
+p.win1<- 1 - paltbinom(1, size = 3, p = 0.70, t = 0.5)
+(p.win1)
 
-# 1−P(X<=1)
-p.wins<-1 - paltbinom(1, size = 3, p = 0.70, t = 0.5)
-(p.wins)
+## for 1.0
+gg.data2 <- tibble(x = 0:3) |>
+  mutate(PMF= daltbinom(x, size = 3, 0.70, 1),
+         CDF= paltbinom(x, size = 3, 0.70, 1)
+        )
+p.win2<- 1 - paltbinom(1, size = 3, p = 0.70, t = 1)
+(p.win2)
 
-# PMF plot using linerange
-PMF.plot<-ggplot(data=gg.data)+
-  geom_linerange(aes(x=x, ymin=0, ymax=PMF))+
-  geom_hline(yintercept=0)+
-  theme_bw()+
-  ylab("Probability that A wins")
+## for 1.5
+gg.data3 <- tibble(x = 0:3) |>
+  mutate(
+         PMF= daltbinom(x, size = 3, 0.70, 1.5),
+         CDF= paltbinom(x, size = 3, 0.70, 1.5)
+       )
+p.win3 <- 1 - paltbinom(1, size = 3, p = 0.70, t = 1.5)
+(p.win3)
 
-# CDF plot shown in steps
-CDF.plot<- ggplot(data=gg.data) +
-  geom_step(aes(x=x, y=CDF))+
-  geom_point(aes(x=x, y=CDF))+
-  geom_hline(yintercept=0)+
-  theme_bw()+
-  ylab("Cumulative Probability")
+# PMF plot for theta=0.5
+PMF.plot1 <- ggplot(gg.data1) +
+  geom_linerange(aes(x = x, ymin = 0, ymax = PMF)) +
+  geom_hline(yintercept = 0) +
+  theme_bw() +
+  ylab("P(A wins) θ = 0.5")
 
-PMF.plot | CDF.plot
+# PMF plot for theta=1.0
+PMF.plot2 <- ggplot(gg.data2) +
+  geom_linerange(aes(x = x, ymin = 0, ymax = PMF)) +
+  geom_hline(yintercept = 0) +
+  theme_bw() +
+  ylab("P(A wins) θ = 1")
+
+# PMF plot for theta=1.5
+PMF.plot3 <- ggplot(gg.data3) +
+  geom_linerange(aes(x = x, ymin = 0, ymax = PMF)) +
+  geom_hline(yintercept = 0) +
+  theme_bw() +
+  ylab("P(A wins) θ = 1.5")
+
+PMF.plot1 | PMF.plot2 | PMF.plot3
 ```
 
 
@@ -668,11 +691,11 @@ alph=7
 bet=3
 
 # created variables with PMF values with different theta values using sapply to apply the x values in the function
-gg.dat1 <- tibble(x = -1:10) |>
+gg.dat1 <- tibble(x = 0:3) |>
   mutate(PMF = sapply(x, daltbbinom, size = 3, t = 0.5, a = alph, b = bet)) 
-gg.dat2 <- tibble(x = -1:10) |>
+gg.dat2 <- tibble(x = 0:3) |>
   mutate(PMF = sapply(x, daltbbinom, size = 3, t = 1, a = alph, b = bet)) 
-gg.dat3 <- tibble(x = -1:10) |>
+gg.dat3 <- tibble(x = 0:3) |>
   mutate(PMF = sapply(x, daltbbinom, size = 3, t = 1.5, a = alph, b = bet))
 
 # PMF plot for when theta is 0.5
