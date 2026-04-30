@@ -14,7 +14,7 @@ about:
 
 # Welcome
 
-Hi, I’m **Kelvin** — welcome to my little corner of the internet.
+Hi, I’m **Kelvin** - welcome to my little corner of the internet.
 
 I’m a student interested in **computer science & math**, currently studying at **Colgate University**.
 
@@ -37,7 +37,7 @@ Right now, I’m working on improving in:
 Data Structures & Algorithms  
 Statistics and Probability  
 Backend development  
-Machine Learning fundamentals  
+System Design and Infra
 
 ---
 
