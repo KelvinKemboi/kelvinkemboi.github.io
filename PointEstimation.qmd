@@ -98,6 +98,87 @@ The idea behind this method comes from the fact that, with enough data, sample a
 
 MOM is often `easier to understand and compute`, but it doesn’t always give the best estimates.
 
+**Example:**
+
+I used a Normal distribution example to demonstrate how the Method of Moments can be applied. For each simulated sample, I computed the sample mean and used the relationship between the first and second moments to obtain an estimate of the variance. These correspond to matching the sample moments to the population moments implied by the Normal distribution.
+
+I repeated this process over 1000 simulations to evaluate how the MOM estimates behave, and summarized the results by computing their average values, bias, and variability. The histograms show the distribution of the MOM estimates across simulations, while the vertical dashed lines indicate the true parameter values for comparison.
+
+```{r}
+#| size: scriptsize
+
+library(tidyverse) # install and load tidyverse package
+
+true_mu<- 5 # true mean
+true_sigma<- 2 # true sd
+n<- 30 # sample size
+n_sims<- 1000 # number of simulations
+
+set.seed(42)
+
+# tibble results
+mom_results<- tibble(
+  sim = 1:n_sims,
+  mom_mu = NA,
+  mom_var = NA
+)
+
+#loop through simulations and store estimates in respective variables
+for(i in 1:n_sims){
+  x <- rnorm(n, mean = true_mu, sd = true_sigma)
+  mom_results$mom_mu[i] <- mean(x)
+  mom_results$mom_var[i] <- mean(x^2) - mean(x)^2
+}
+
+#numerical summary
+mom_summary<- mom_results |>
+  summarise(
+    true_mu = true_mu,
+    true_var = true_sigma^2,
+    mom_mean_mu = mean(mom_mu),
+    mom_mean_var = mean(mom_var),
+    bias_mu = mean(mom_mu) - true_mu,
+    bias_var = mean(mom_var) - true_sigma^2,
+    variance_mu = var(mom_mu),
+    variance_var = var(mom_var)
+  )
+
+mom_summary
+
+plot_dat<- mom_results |>
+  # reshape with longer
+  pivot_longer(
+    cols = c(mom_mu, mom_var),
+    names_to = "parameter",
+    values_to = "estimate"
+  ) |>
+  mutate( # columns for categories
+    parameter = factor(
+      parameter,
+      levels = c("mom_mu", "mom_var"),
+      labels = c("MOM estimate of μ", "MOM estimate of σ²")
+    )
+  )
+
+# results tibble for vline visualisation
+truth_dat<- tibble(
+  parameter = c("MOM estimate of μ", "MOM estimate of σ²"),
+  truth = c(true_mu, true_sigma^2)
+)
+
+#plot using histogram
+ggplot(plot_dat, aes(x = estimate)) +
+  geom_histogram(bins = 40) +
+  geom_vline(data = truth_dat, aes(xintercept = truth), linetype = "dashed", linewidth = 0.8) +
+  facet_wrap(~ parameter, scales = "free", ncol = 1) +
+  labs(
+    title = "MOM Distribution of Estimates Across Simulations",
+    x = "Estimate",
+    y = "Count"
+  ) +
+  theme_bw()
+```
+
 ---
 
 ## Maximum Likelihood Estimation (MLE)
@@ -120,6 +201,87 @@ We imagine different possible values for the parameter and choose the value that
 8. Check the solution  
 
 MLE can sometimes be more complicated to compute.
+
+
+**Example:**
+
+I used a basic Normal distribution example to show how MLE can be computed with `optim()`. In the `negative log-likelihood` function, I transformed `sigma` using `exp()` so that the optimizer only searches over positive standard deviation values. After optimizing, I transformed the estimate back by exponentiating it and squaring it to report the variance estimate.
+
+```{r}
+#| size: scriptsize
+
+# function returning negative log-likelihood
+neg_log_lik<- function(par, x) {
+  mu <- par[1]
+  sigma <- exp(par[2])
+  -sum(dnorm(x, mean = mu, sd = sigma, log = TRUE))
+}
+
+mle_results<- tibble(
+  sim = 1:n_sims,
+  mle_mu = NA,
+  mle_var = NA
+  )
+
+for(i in 1:n_sims){
+  x<- rnorm(n, mean = true_mu, sd = true_sigma) # random values
+  
+  # optimise with optim()
+  fit<- optim(par = c(0, 0),fn = neg_log_lik,x = x)
+
+  # store results in variables
+  mle_results$mle_mu[i]<- fit$par[1]
+  mle_results$mle_var[i]<- exp(fit$par[2])^2
+}
+
+# numerical summary
+mle_summary<- mle_results |>
+  summarise(
+    true_mu = true_mu,
+    true_var = true_sigma^2,
+    mle_mean_mu = mean(mle_mu),
+    mle_mean_var = mean(mle_var),
+    bias_mu = mean(mle_mu) - true_mu,
+    bias_var = mean(mle_var) - true_sigma^2,
+    variance_mu = var(mle_mu),
+    variance_var = var(mle_var)
+  )
+
+mle_summary
+
+plot_dat<- mle_results |>
+    # reshape with pivot_longer
+  pivot_longer(
+    cols = c(mle_mu, mle_var),
+    names_to = "parameter",
+    values_to = "estimate"
+  ) |>
+  mutate(
+    parameter = factor(
+      parameter,
+      levels = c("mle_mu", "mle_var"),
+      labels = c("MLE estimate of μ", "MLE estimate of σ²")
+    )
+  )
+
+# results tibble for vline visualisation
+truth_dat<- tibble(
+  parameter = c("MLE estimate of μ", "MLE estimate of σ²"),
+  truth = c(true_mu, true_sigma^2)
+)
+
+# plot
+ggplot(plot_dat, aes(x = estimate)) +
+  geom_histogram(bins = 40) +
+  geom_vline(data = truth_dat,aes(xintercept = truth),linetype = "dashed",linewidth = 0.8) +
+  facet_wrap(~ parameter, scales = "free", ncol = 1) +
+  labs(
+    title = "MLE Distribution of Estimates Across Simulations",
+    x = "Estimate",
+    y = "Count"
+  ) +
+  theme_bw()
+```
 
 ---
 
